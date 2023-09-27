@@ -393,8 +393,8 @@ list_dirs_cold = [
 list_dirs_warm = [
     "20230922_scaled_IDQ_linear_warm",
     "20230922_scaled_IDQ_softplus_warm",
-    "20230919_scaled_subgradient_linear_warm",
-    "20230919_scaled_subgradient_softplus_warm",
+    "20230920_scaled_subgradient_linear_warm",
+    "20230920_scaled_subgradient_softplus_warm",
     "20230919_scaled_IP_auto_linear_warm",
     "20230919_scaled_IP_auto_softplus_warm",
     "20230919_scaled_IP_manualS_linear_warm",
