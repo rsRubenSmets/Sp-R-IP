@@ -13,7 +13,6 @@ using JuMP
 using NPZ
 using Plots
 using DataStructures
-include("functions_support.jl")
 
 function read_evol_lists(list_dirs,fc_evol=false)
 
@@ -54,14 +53,16 @@ function read_evol_lists(list_dirs,fc_evol=false)
 end
 
 function locate_dir(dir)
-    base_dir_julia = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Julia scripts/trained_models/LR/LA24/SPO/"
-    base_dir_python = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Python scripts/trained_models/LR/LA24/torch/"
+    #base_dir_julia = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Julia scripts/trained_models/LR/LA24/SPO/"
+    #base_dir_python = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Python scripts/trained_models/LR/LA24/torch/"
+    base_dir = "../training/train_output/"
+
 
     if occursin("_ID",dir) 
-        dir = base_dir_python*dir
+        dir = base_dir*dir
         return dir,"h5"
     elseif occursin("_IP",dir) || occursin("_subgradient",dir)
-        dir = base_dir_julia*dir
+        dir = base_dir*dir
         return dir, "jld2"
     else
         error("Invalid dir name: $(dir)")
@@ -352,8 +353,8 @@ end
 
 #### Obtaining results of Table 1  #####
 list_dirs_cold = [
-    "20230920_scaled_IDQ_linear_cold",
-    "20230920_scaled_IDQ_softplus_cold",
+    #"20230920_scaled_IDQ_linear_cold",
+    #"20230920_scaled_IDQ_softplus_cold",
     "20230920_scaled_subgradient_linear_cold",
     "20230920_scaled_subgradient_softplus_cold",
     "20230919_scaled_IP_auto_linear_cold",
@@ -384,7 +385,8 @@ list_dirs_reform = [ #Reformulation models (Sp-R) treated differently because fo
     "20230919_scaled_IP_auto_softplus_warm"
 ]
 
-
+check = "../training/train_output/20230920_scaled_subgradient_linear_cold/config_1_train_evols.jld2"
+isdir("../experiment")
 
 list_evols_cold,_ = read_evol_lists(list_dirs_cold,false)
 list_evols_red_cold = reduce_evol_lists(list_evols_cold)
