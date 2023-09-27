@@ -396,7 +396,7 @@ list_evols_red = reduce_evol_lists(list_evols)
 # train_times = get_property_outcome_config(list_outcomes,best_configs,"b_train_time")
 # test_profit_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_profit", "test")
 # test_regret_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_regret", "test")
-# fc_price = calc_price_evolution(list_fc_lists,features_train)
+fc_price = calc_price_evolution(list_fc_lists,features_train)
 # subgradient,abs_sum_subgrad = calc_subgradient(fc_price,labels_train[1],OP_params_dict)
 
 index1 = 100
