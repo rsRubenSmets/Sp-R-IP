@@ -12,7 +12,9 @@ using JuMP
 using NPZ
 using Plots
 using DataStructures
+using ColorSchemes
 include("../experiment/functions_support.jl")
+include("functions_support_results.jl")
 
 
 function get_filename_julia(config,prop,type="npz")
@@ -121,6 +123,215 @@ function reduce_output_auto(dict_evol)
     mu = dict_evol["mu"]
 
 end
+
+
+##### Obtaining Figure 2 #####
+#Pre-processing
+list_dirs = [
+    "20230919_scaled_IP_manualD_softplus_warm",
+    "20230919_scaled_IP_manualS_softplus_warm",
+    "20230919_scaled_IP_auto_softplus_warm",
+]
+
+list_evol_lists,_ = read_evol_lists(list_dirs,false)
+
+list_evol_lists_reduced = reduce_evol_lists(list_evol_lists)
+
+list_df_best_outcomes = get_dataframes_best(list_evol_lists_reduced)
+
+_,list_best_configs = sort_df(list_df_best_outcomes)
+
+
+labels = ["Sp-R-IPd","Sp-R-IPs","Sp-R-IP"]
+
+
+
+#Figure 2a
+vis = "regret_evol_train"
+
+plot()
+
+for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced))
+
+    println(i)
+    dict = list[13]
+    mu = log10.(dict["list_mu"])
+    prop = dict[vis]
+
+    plot!(mu,prop,
+    label=labels[i],
+    marker=:circle,
+    ms=10,
+    linewidth=10,
+    xguidefontsize=40,
+    yguidefontsize=40,
+    xticks=:auto,xtickfontsize=30,
+    yticks=:auto,ytickfontsize=30,
+    xguide="log(μ)",
+    yguide="Train regret (€)",
+    legendfontsize=30,
+    legend=:bottomleft,
+    size=(1500,1100),
+    left_margin = 15Plots.mm,
+    bottom_margin= 10Plots.mm,
+    latex=true
+    )
+    
+
+end
+
+xflip!()
+
+
+#Figure 2b
+vis = "regret_evol_val"
+
+plot()
+
+for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced))
+
+    println(i)
+    dict = list[13]
+    mu = log10.(dict["list_mu"])
+    prop = dict[vis]
+
+    plot!(mu,prop,
+    label=labels[i],
+    marker=:circle,
+    ms=10,
+    linewidth=10,
+    xguidefontsize=40,
+    yguidefontsize=40,
+    xticks=:auto,xtickfontsize=30,
+    yticks=:auto,ytickfontsize=30,
+    xguide="log(μ)",
+    yguide="Train regret (€)",
+    legendfontsize=30,
+    legend=:bottomleft,
+    size=(1500,1100),
+    left_margin = 15Plots.mm,
+    bottom_margin= 10Plots.mm,
+    latex=true
+    )
+    
+
+end
+
+xflip!()
+
+
+
+
+##### Obtaining Figure 3 #####
+
+dict_read_codes_orig = OrderedDict(
+    #Dictionary with combination of read code, config and value to be inspected
+    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
+    "Sp-R-IP" => ["julia", "20230811_scaled_softplus_warmStart_dynamic/",11,"val_profit"],
+    "γ=0.01" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"val_profit"],
+    "γ=0.03" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"val_profit"],
+    "γ=0.1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"val_profit"],
+    "γ=0.3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"val_profit"],
+    "γ=1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"val_profit"],
+    "γ=3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"val_profit"],
+    "γ=10" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"val_profit"],
+    "γ=30" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"val_profit"],
+
+)
+
+dict_read_codes_mod = OrderedDict(
+    #Dictionary with combination of read code, config and value to be inspected
+    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
+    
+    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit_RA"],
+    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit_RA"],
+    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit_RA"],
+    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit_RA"],
+    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit_RA"],
+    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit_RA"],
+    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit_RA"],
+    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit_RA"],
+
+)
+
+
+colors = palette([:blue,:yellow],length(dict_read_codes_orig))
+
+profit_dict_orig = get_prop_dict(dict_read_codes_orig)
+profit_dict_mod = get_prop_dict(dict_read_codes_mod)
+
+profit_val_pf = 0.489199348469553
+profit_test_pf = 0.515363768
+profit_train_pf = 1.754977235
+
+
+
+plot()
+
+for (i,lbl) in enumerate(keys(profit_dict_orig))
+
+    linestyle=:solid
+    color=nothing
+    lw=nothing
+    if lbl == "Sp-R-IP"
+        @show(lbl)
+        color = "black"
+        lw=2.0
+    else
+        color = colors[i]
+        lw=1.5
+    end
+    plot!([profit_val_pf-profit_dict_orig[lbl][i] for i in 1:length(profit_dict_orig[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
+
+end
+
+yaxis!("Regret (€)")
+xaxis!("Training iteration")
+
+
+dir = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Plots/"
+savefig(dir*"20230925_ID_gammaComp_val_mod")
+
+
+
+plot()
+for (i,lbl) in enumerate(keys(profit_dict_mod))
+    #linestyle = get_linestyle(dict_read_codes[lbl][1])
+    #color = get_color(dict_read_codes[lbl][2])
+    #plot!(profit_dict[lbl],label=lbl,linestyle=linestyle,color=color)
+    linestyle=:dash
+    plot!(profit_dict_mod[lbl],label=lbl,linestyle=linestyle,color=colors[i])
+
+end
+
+title!("Validation profit over training iterations")
+yaxis!("Profit (€)")
+xaxis!("Training iteration")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 dict_read_codes = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
