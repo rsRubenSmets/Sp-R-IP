@@ -368,3 +368,88 @@ function get_profit(list_outcomes,best_configs, mode ,set_str)
     return list_profit
 end
 
+function get_filename_julia(config,prop,type="npz")
+    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'    
+
+    str=nothing
+
+    if type == "jld2"
+        str = "train_evols"
+    else
+
+        if prop == "train_profit"
+            str = "profitEvol_train"
+        elseif prop == "val_profit"
+            str = "profitEvol_val"
+        elseif prop == "test_profit"
+            str = "profitEvol_test"
+        elseif prop == "mu"
+            str = "listMu"
+        end
+
+    end
+
+
+    return "config_$(config)_$(str).$(type)"
+end
+
+function get_property_value_python(config,prop,read_folder)
+
+    properties = npzread("$(read_folder)/config_$(config)_profitEvol.npz")
+
+    if prop == "train_profit"
+        key = "array_2"
+    elseif prop == "val_profit"
+        key = "array_4"
+    elseif prop == "test_profit"
+        key = "array_6"
+    elseif prop == "train_profit_RA"
+        key = "array_1"
+    elseif prop == "val_profit_RA"
+        key = "array_3"
+    elseif prop == "test_profit_RA"
+        key = "array_5"
+    elseif prop == "n_gradients_zero"
+        key = "array_7"
+    end
+    return properties[key]
+
+end
+
+function get_prop_dict(read_codes_dict)
+
+
+    prop_dict = OrderedDict()
+
+    for key in keys(read_codes_dict)
+        
+        lang = read_codes_dict[key][1]
+        base_folder= "./training/train_output/"
+        
+        read_folder = base_folder*read_codes_dict[key][2]
+        config = read_codes_dict[key][3]
+        prop = read_codes_dict[key][4]
+
+        if lang == "julia"
+            filename = get_filename_julia(config,prop)
+            if isfile(read_folder*filename)
+                property_value = npzread(read_folder*filename)
+            else
+                filename = get_filename_julia(config,prop,"jld2")
+                property_value = JLD2.load(read_folder*filename)["train_evols"][prop]
+            end
+
+        elseif lang == "python"
+            
+            property_value = get_property_value_python(config,prop,read_folder)
+
+        end
+
+
+        prop_dict[key] = property_value
+    end
+
+    return prop_dict
+end
+
+

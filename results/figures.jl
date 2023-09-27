@@ -9,120 +9,38 @@ using JLD2
 using Gurobi
 using DelimitedFiles
 using JuMP
+using Ipopt
 using NPZ
 using Plots
+using Printf
 using DataStructures
 using ColorSchemes
 include("../experiment/functions_support.jl")
 include("functions_support_results.jl")
 
 
-function get_filename_julia(config,prop,type="npz")
-    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'    
+# function get_linestyle(lang)
+#     if lang == "julia"
+#         return :solid
+#     elseif lang == "python"
+#         return :dash
+#     end
+# end
 
-    str=nothing
+# function get_color(folder)
+#     if occursin("linear", folder)
+#         return :blue
+#     elseif occursin("softplus", folder)
+#         return :green
+#     elseif occursin("relu", folder)
+#         return :Base.liblapack_name
+#     end
+# end
 
-    if type == "jld2"
-        str = "train_evols"
-    else
+# function reduce_output_auto(dict_evol)
+#     mu = dict_evol["mu"]
 
-        if prop == "train_profit"
-            str = "profitEvol_train"
-        elseif prop == "val_profit"
-            str = "profitEvol_val"
-        elseif prop == "test_profit"
-            str = "profitEvol_test"
-        elseif prop == "mu"
-            str = "listMu"
-        end
-
-    end
-
-
-    return "config_$(config)_$(str).$(type)"
-end
-
-function get_property_value_python(config,prop,read_folder)
-
-    properties = npzread("$(read_folder)/config_$(config)_profitEvol.npz")
-
-    if prop == "train_profit"
-        key = "array_2"
-    elseif prop == "val_profit"
-        key = "array_4"
-    elseif prop == "test_profit"
-        key = "array_6"
-    elseif prop == "train_profit_RA"
-        key = "array_1"
-    elseif prop == "val_profit_RA"
-        key = "array_3"
-    elseif prop == "test_profit_RA"
-        key = "array_5"
-    elseif prop == "n_gradients_zero"
-        key = "array_7"
-    end
-    return properties[key]
-
-end
-
-function get_prop_dict(read_codes_dict)
-
-
-    prop_dict = OrderedDict()
-
-    for key in keys(read_codes_dict)
-        
-        lang = read_codes_dict[key][1]
-        base_folder= "./training/train_output/"
-        
-        read_folder = base_folder*read_codes_dict[key][2]
-        config = read_codes_dict[key][3]
-        prop = read_codes_dict[key][4]
-
-        if lang == "julia"
-            filename = get_filename_julia(config,prop)
-            if isfile(read_folder*filename)
-                property_value = npzread(read_folder*filename)
-            else
-                filename = get_filename_julia(config,prop,"jld2")
-                property_value = JLD2.load(read_folder*filename)["train_evols"][prop]
-            end
-
-        elseif lang == "python"
-            
-            property_value = get_property_value_python(config,prop,read_folder)
-
-        end
-
-
-        prop_dict[key] = property_value
-    end
-
-    return prop_dict
-end
-
-function get_linestyle(lang)
-    if lang == "julia"
-        return :solid
-    elseif lang == "python"
-        return :dash
-    end
-end
-
-function get_color(folder)
-    if occursin("linear", folder)
-        return :blue
-    elseif occursin("softplus", folder)
-        return :green
-    elseif occursin("relu", folder)
-        return :Base.liblapack_name
-    end
-end
-
-function reduce_output_auto(dict_evol)
-    mu = dict_evol["mu"]
-
-end
+# end
 
 
 ##### Obtaining Figure 2 #####
@@ -224,7 +142,37 @@ xflip!()
 
 ##### Obtaining Figure 3 #####
 
-dict_read_codes_orig = OrderedDict(
+#Pre-processing
+dict_read_codes_3a = OrderedDict(
+    #Dictionary with combination of read code, config and value to be inspected
+    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
+    "Sp-R-IP" => ["julia", "20230811_scaled_softplus_warmStart_dynamic/",11,"train_profit"],
+    "γ=0.01" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit"],
+    "γ=0.03" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit"],
+    "γ=0.1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit"],
+    "γ=0.3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit"],
+    "γ=1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit"],
+    "γ=3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit"],
+    "γ=10" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit"],
+    "γ=30" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit"],
+
+)
+
+dict_read_codes_3b = OrderedDict(
+    #Dictionary with combination of read code, config and value to be inspected
+    #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
+    
+    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit_RA"],
+    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit_RA"],
+    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit_RA"],
+    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit_RA"],
+    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit_RA"],
+    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit_RA"],
+    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit_RA"],
+    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit_RA"],
+
+)
+dict_read_codes_3c = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
     "Sp-R-IP" => ["julia", "20230811_scaled_softplus_warmStart_dynamic/",11,"val_profit"],
@@ -239,25 +187,29 @@ dict_read_codes_orig = OrderedDict(
 
 )
 
-dict_read_codes_mod = OrderedDict(
+dict_read_codes_3d = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
     
-    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit_RA"],
-    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit_RA"],
-    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit_RA"],
-    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit_RA"],
-    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit_RA"],
-    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit_RA"],
-    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit_RA"],
-    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit_RA"],
+    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"val_profit_RA"],
+    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"val_profit_RA"],
+    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"val_profit_RA"],
+    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"val_profit_RA"],
+    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"val_profit_RA"],
+    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"val_profit_RA"],
+    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"val_profit_RA"],
+    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"val_profit_RA"],
 
 )
 
 
 colors = palette([:blue,:yellow],length(dict_read_codes_orig))
 
-profit_dict_orig = get_prop_dict(dict_read_codes_orig)
+profit_dict_3a = get_prop_dict(dict_read_codes_3a)
+profit_dict_3b = get_prop_dict(dict_read_codes_3b)
+profit_dict_3c = get_prop_dict(dict_read_codes_3c)
+profit_dict_3d = get_prop_dict(dict_read_codes_3d)
+
 profit_dict_mod = get_prop_dict(dict_read_codes_mod)
 
 profit_val_pf = 0.489199348469553
@@ -266,22 +218,23 @@ profit_train_pf = 1.754977235
 
 
 
+
+#Figure 3a
 plot()
 
-for (i,lbl) in enumerate(keys(profit_dict_orig))
+for (i,lbl) in enumerate(keys(profit_dict_3a))
 
     linestyle=:solid
     color=nothing
     lw=nothing
     if lbl == "Sp-R-IP"
-        @show(lbl)
         color = "black"
         lw=2.0
     else
         color = colors[i]
         lw=1.5
     end
-    plot!([profit_val_pf-profit_dict_orig[lbl][i] for i in 1:length(profit_dict_orig[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
+    plot!([profit_train_pf-profit_dict_3a[lbl][i] for i in 1:length(profit_dict_3a[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
 
 end
 
@@ -289,24 +242,233 @@ yaxis!("Regret (€)")
 xaxis!("Training iteration")
 
 
-dir = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Plots/"
-savefig(dir*"20230925_ID_gammaComp_val_mod")
-
-
-
+#Figure 3b
 plot()
-for (i,lbl) in enumerate(keys(profit_dict_mod))
-    #linestyle = get_linestyle(dict_read_codes[lbl][1])
-    #color = get_color(dict_read_codes[lbl][2])
-    #plot!(profit_dict[lbl],label=lbl,linestyle=linestyle,color=color)
-    linestyle=:dash
-    plot!(profit_dict_mod[lbl],label=lbl,linestyle=linestyle,color=colors[i])
+
+for (i,lbl) in enumerate(keys(profit_dict_3b))
+
+    linestyle=:solid
+    color=nothing
+    lw=nothing
+    if lbl == "Sp-R-IP"
+        color = "black"
+        lw=2.0
+    else
+        color = colors[i]
+        lw=1.5
+    end
+    plot!([profit_train_pf-profit_dict_3b[lbl][i] for i in 1:length(profit_dict_3b[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
 
 end
 
-title!("Validation profit over training iterations")
-yaxis!("Profit (€)")
+yaxis!("Regret (€)")
 xaxis!("Training iteration")
+
+
+#Figure 3c
+plot()
+
+for (i,lbl) in enumerate(keys(profit_dict_3c))
+
+    linestyle=:solid
+    color=nothing
+    lw=nothing
+    if lbl == "Sp-R-IP"
+        color = "black"
+        lw=2.0
+    else
+        color = colors[i]
+        lw=1.5
+    end
+    plot!([profit_val_pf-profit_dict_3c[lbl][i] for i in 1:length(profit_dict_3c[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
+
+end
+
+yaxis!("Regret (€)")
+xaxis!("Training iteration")
+
+
+#Figure 3d
+plot()
+
+for (i,lbl) in enumerate(keys(profit_dict_3d))
+
+    linestyle=:solid
+    color=nothing
+    lw=nothing
+    if lbl == "Sp-R-IP"
+        color = "black"
+        lw=2.0
+    else
+        color = colors[i]
+        lw=1.5
+    end
+    plot!([profit_val_pf-profit_dict_3d[lbl][i] for i in 1:length(profit_dict_3d[lbl])],label=lbl,linestyle=linestyle,color=color,linewidth=lw)
+
+end
+
+yaxis!("Regret (€)")
+xaxis!("Training iteration")
+
+
+
+
+
+##### Obtaining Figure 3 #####
+
+# Getting features
+
+train_share = 1
+days_train = floor(Int,1/train_share)
+last_ex_test = 59 #59
+repitition = 1
+la=24
+factor_size_ESS = 1
+
+loc_data = "./data/processed_data/SPO_DA/"
+
+data_dict = Dict(
+    "loc_data" => loc_data,
+    "feat_cols" => ["weekday", "NL+FR","GEN_FC","y_hat"],
+    "col_label_price" => "y",
+    "col_label_fc_price" => "y_hat",
+    "lookahead" => la,
+    "days_train" => days_train,
+    "last_ex_test" => last_ex_test,
+    "train_share" => train_share,
+    "scale_mode" => "stand",
+    "scale_base" => "y_hat",
+    "scale_price" => true, #scale ground truth by dividing it with the stdev of the forecasted prices 
+    "cols_no_centering" => ["y_hat"],
+    "val_split_mode" => "alt_test" #'separate' for the validation set right before test set or 'alernating' for train/val examples alternating or "alt_test" for val_test examples alternating
+)
+
+training_dict = Dict(
+    "train_type" => "SG", #"IP" (Interior Point), "SG" (SubGradient) or "SL" (Simplex)
+    "model_type" => "LR",
+    "type_train_labels" => "price_schedule",
+    "decomp" => "none",
+    "train_mode" => "nonlinear", #"linear" or "nonlinear"
+    "activation_function" => "softplus", #"relu" or "softplus" or "sigmoid"
+    "pretrained_fc" => 1.0,
+    "mu_update" => "auto", #"auto", "manual_d" (dynamic) or "manual_s" (static)
+    "SG_epochs" => 200,
+    "SG_patience" => 25,
+    "SG_clip_base" => 1.0 #Value of gradient clipping, which is adjusted to the amount of updates and learning rate
+)
+
+OP_params_dict = Dict{Any,Any}(
+    "max_charge" => 0.01 * factor_size_ESS,
+    "max_discharge" => 0.01 * factor_size_ESS,
+    "eff_d" => 0.95,
+    "eff_c" => 0.95,
+    "max_soc" => 0.04 * factor_size_ESS,
+    "min_soc" => 0,
+    "soc_0" => 0.02 * factor_size_ESS,
+    "ts_len" => 1,
+    "lookahead" => la,
+    "soc_update" => true,
+    "cyclic_bc" => true,
+
+)
+
+
+
+
+
+features_train, features_val, features_test, price_train, price_val, price_test, _ , _ = preprocess_data(data_dict)
+
+labels_train,labels_val,labels_test = preprocess_labels(training_dict["type_train_labels"],price_train,price_val,price_test,OP_params_dict,data_dict)
+
+
+list_dirs = [
+    "20230924_subgradient_softplus_warm_1_59",
+]
+
+
+list_evols,list_fc_lists = read_evol_lists(list_dirs,true)
+list_evols_red = reduce_evol_lists(list_evols)
+# dfs_best = get_dataframes_best(list_evols_red)
+# df_best_sorted,best_configs = sort_df(dfs_best)
+# test_profits = get_properties_best(dfs_best,best_configs,"profit_test")
+# test_regret = get_properties_best(dfs_best,best_configs,"regret_test")
+# list_outcomes = get_outcomes(list_dirs)
+# train_times = get_property_outcome_config(list_outcomes,best_configs,"b_train_time")
+# test_profit_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_profit", "test")
+# test_regret_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_regret", "test")
+# fc_price = calc_price_evolution(list_fc_lists,features_train)
+# subgradient,abs_sum_subgrad = calc_subgradient(fc_price,labels_train[1],OP_params_dict)
+
+index1 = 100
+index2 = 198
+config = 16
+
+evols = list_evols_red[1][16]
+
+
+c_fc = -fc_price[config][index1][1:24]
+c_act = -labels_train[1][1:24]
+c_adj = 2 .* c_fc - c_act
+
+w_fc = calc_optimal_schedule(-transpose(c_fc),OP_params_dict,"Gurobi")
+w_act = calc_optimal_schedule(-transpose(c_act),OP_params_dict,"Gurobi")
+w_adj = calc_optimal_schedule(-transpose(c_adj),OP_params_dict,"Gurobi")
+
+
+
+#Figure 4a
+p1 = plot(c_fc, label="ĉ", linewidth=3,size=(400,300))
+plot!(c_act, label="c", linewidth=3)
+plot!(c_adj, label="2ĉ -c", linewidth=3)
+xaxis!("Hour of day", fontsize=100, tickfont=font(16))
+yaxis!("Opposite price (€)", fontsize=16, tickfont=font(10))
+plot!(xticks=(2:2:24, string.(2:2:24))) 
+
+plot!(legendfontsize=10)
+
+
+
+#Figure 4b
+p2=plot(w_fc[49:end],label="x*(ĉ)",linewidth=3,size=(400,300))
+
+plot!(w_act[49:end],label="x*(c)",linestyle=:dash,linewidth=3)
+plot!(w_adj[49:end],label="x*(2ĉ-c)",linewidth=3)
+xaxis!("Hour of day", fontsize=100, tickfont=font(16))
+yaxis!("State of Charge (MWh)", fontsize=16, tickfont=font(10))
+plot!(legendfontsize=13)
+plot!(xticks=(2:2:24, string.(2:2:24)))
+
+plot!(legendfontsize=10)
+
+
+#Figure 4c
+p3= plot(evols["regret_evol_train"],linewidth=3,size=(400,550),left_margin = 5Plots.mm)
+
+xaxis!("Epoch", fontsize=100, tickfont=font(16))
+yaxis!("Train regret (€)", fontsize=16, tickfont=font(10))
+
+function scientific_notation(ticks)
+    return [@sprintf("%.0e", tick) for tick in ticks]
+end
+
+tick_positions = [0.0, 1e-3, 2e-3]
+tick_labels = scientific_notation(tick_positions)
+yticks!(tick_positions, tick_labels)
+
+plot!(legend=false)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

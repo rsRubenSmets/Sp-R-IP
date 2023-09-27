@@ -416,7 +416,6 @@ index1 = 100
 index2 = 198
 config = 16
 
-using Printf
 evols = list_evols_red[1][16]
 
 p3= plot(evols["regret_evol_train"],linewidth=3,size=(400,550),left_margin = 5Plots.mm)
