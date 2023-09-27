@@ -13,6 +13,7 @@ using JuMP
 using NPZ
 using Plots
 using DataStructures
+include("../experiment/functions_support.jl")
 
 function read_evol_lists(list_dirs,fc_evol=false)
 
@@ -55,7 +56,7 @@ end
 function locate_dir(dir)
     #base_dir_julia = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Julia scripts/trained_models/LR/LA24/SPO/"
     #base_dir_python = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Python scripts/trained_models/LR/LA24/torch/"
-    base_dir = "../training/train_output/"
+    base_dir = "./training/train_output/"
 
 
     if occursin("_ID",dir) 
@@ -345,6 +346,28 @@ function calc_subgradient(list_fc_price,act_price,OP_params_dict)
     return subgrad,abs_sum_subgrad
 end
 
+function get_profit(list_outcomes,best_configs, mode ,set_str)
+    list_profit = []
+    for (outcome,config) in zip(list_outcomes,best_configs)
+        cols = names(outcome)
+        if "a_profit_RN_$(set_str)" ∈ cols
+            if mode == "PF"
+                push!(list_profit,outcome[config,"ab_profit_$(mode)_$(set_str)"])
+            elseif mode == "fc"
+                push!(list_profit,outcome[config,"a_profit_RN_$(set_str)_$(mode)"])
+            end
+
+        else
+            if mode == "PF"
+                push!(list_profit,outcome[config,"ab_profit_$(set_str)_$(mode)"])
+            elseif mode == "fc"
+                push!(list_profit,outcome[config,"a_profit_$(set_str)_$(mode)"])
+            end
+        end
+    end
+    return list_profit
+end
+
 
 
 
@@ -352,9 +375,11 @@ end
 
 
 #### Obtaining results of Table 1  #####
+
+
 list_dirs_cold = [
-    #"20230920_scaled_IDQ_linear_cold",
-    #"20230920_scaled_IDQ_softplus_cold",
+    "20230920_scaled_IDQ_linear_cold",
+    "20230920_scaled_IDQ_softplus_cold",
     "20230920_scaled_subgradient_linear_cold",
     "20230920_scaled_subgradient_softplus_cold",
     "20230919_scaled_IP_auto_linear_cold",
@@ -385,15 +410,13 @@ list_dirs_reform = [ #Reformulation models (Sp-R) treated differently because fo
     "20230919_scaled_IP_auto_softplus_warm"
 ]
 
-check = "../training/train_output/20230920_scaled_subgradient_linear_cold/config_1_train_evols.jld2"
-isdir("../experiment")
+
 
 list_evols_cold,_ = read_evol_lists(list_dirs_cold,false)
 list_evols_red_cold = reduce_evol_lists(list_evols_cold)
 dfs_best_cold = get_dataframes_best(list_evols_red_cold)
 df_best_sorted_cold,best_configs_cold = sort_df(dfs_best_cold)
 test_profits_cold = get_properties_best(dfs_best_cold,best_configs_cold,"profit_test")
-test_regret_cold = get_properties_best(dfs_best_cold,best_configs_cold,"regret_val")
 list_outcomes_cold = get_outcomes(list_dirs_cold)
 train_times_cold = get_property_outcome_config(list_outcomes_cold,best_configs_cold,"b_train_time")
 test_profit_improvement_cold = calc_property_outcome(list_outcomes_cold, best_configs_cold, "impr_profit", "val")
@@ -404,7 +427,6 @@ list_evols_red_warm = reduce_evol_lists(list_evols_warm)
 dfs_best_warm = get_dataframes_best(list_evols_red_warm)
 df_best_sorted_warm,best_configs_warm = sort_df(dfs_best_warm)
 test_profits_warm = get_properties_best(dfs_best_warm,best_configs_warm,"profit_test")
-test_regret_warm = get_properties_best(dfs_best_warm,best_configs_warm,"regret_val")
 list_outcomes_warm = get_outcomes(list_dirs_warm)
 train_times_warm = get_property_outcome_config(list_outcomes_warm,best_configs_warm,"b_train_time")
 test_profit_improvement_warm = calc_property_outcome(list_outcomes_warm, best_configs_warm, "impr_profit", "val")
@@ -415,9 +437,45 @@ list_outcomes_reform = get_outcomes(list_dirs_reform)
 df_best_sorted_reform, best_configs_reform = sort_df(list_outcomes_reform,"outcome")
 train_times_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"b_train_time")
 test_profits_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"a_profit_test_opt")
-test_regret_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "regret", "val", true)
 test_profit_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_profit", "val", true)
 test_regret_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_regret", "val", true)
+
+
+profit_pf_val = get_profit(list_outcomes_cold,best_configs_cold,"PF", "val")
+profit_pf_test = get_profit(list_outcomes_cold,best_configs_cold,"PF", "test")
+profit_fc_val = get_profit(list_outcomes_cold,best_configs_cold,"fc", "val")
+profit_fc_test = get_profit(list_outcomes_cold,best_configs_cold,"fc", "test")
+regret_fc_val = profit_pf_val - profit_fc_val
+regret_fc_test = profit_pf_test - profit_fc_test
+
+
+
+#Values of abs regret in Table 1
+test_regret_cold = get_properties_best(dfs_best_cold,best_configs_cold,"regret_test")
+test_regret_warm = get_properties_best(dfs_best_warm,best_configs_warm,"regret_test")
+test_regret_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "regret", "test", true)
+
+#Values of rel regret in Table 1
+test_regret_impr_cold = [(test_regret_cold[i]-regret_fc_test[i])/regret_fc_test[i] for i in 1:length(test_regret_cold)]
+test_regret_impr_warm = [(test_regret_warm[i]-regret_fc_test[i])/regret_fc_test[i] for i in 1:length(test_regret_warm)]
+test_regret_impr_reform = [(test_regret_reform[i]-regret_fc_test[i])/regret_fc_test[i] for i in 1:length(test_regret_reform)]
+
+
+#Values of abs regret in Table 2
+val_regret_cold = get_properties_best(dfs_best_cold,best_configs_cold,"regret_val")
+val_regret_warm = get_properties_best(dfs_best_warm,best_configs_warm,"regret_val")
+val_regret_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "regret", "val", true)
+
+#Values of rel regret in Table 2
+val_regret_impr_cold = [(val_regret_cold[i]-regret_fc_val[i])/regret_fc_val[i] for i in 1:length(val_regret_cold)]
+val_regret_impr_warm = [(val_regret_warm[i]-regret_fc_val[i])/regret_fc_val[i] for i in 1:length(val_regret_warm)]
+val_regret_impr_reform = [(val_regret_reform[i]-regret_fc_val[i])/regret_fc_val[i] for i in 1:length(val_regret_reform)]
+
+
+
+#Values of train time in Table 1
+
+
 
 
 
