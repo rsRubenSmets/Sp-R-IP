@@ -54,8 +54,6 @@ function read_evol_lists(list_dirs,fc_evol=false)
 end
 
 function locate_dir(dir)
-    #base_dir_julia = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Julia scripts/trained_models/LR/LA24/SPO/"
-    #base_dir_python = "C:/Users/u0137781/OneDrive - KU Leuven/da_scheduling/Python scripts/trained_models/LR/LA24/torch/"
     base_dir = "./training/train_output/"
 
 
@@ -416,29 +414,26 @@ list_evols_cold,_ = read_evol_lists(list_dirs_cold,false)
 list_evols_red_cold = reduce_evol_lists(list_evols_cold)
 dfs_best_cold = get_dataframes_best(list_evols_red_cold)
 df_best_sorted_cold,best_configs_cold = sort_df(dfs_best_cold)
-test_profits_cold = get_properties_best(dfs_best_cold,best_configs_cold,"profit_test")
 list_outcomes_cold = get_outcomes(list_dirs_cold)
-train_times_cold = get_property_outcome_config(list_outcomes_cold,best_configs_cold,"b_train_time")
-test_profit_improvement_cold = calc_property_outcome(list_outcomes_cold, best_configs_cold, "impr_profit", "val")
-test_regret_improvement_cold = calc_property_outcome(list_outcomes_cold, best_configs_cold, "impr_regret", "val")
+#test_profits_cold = get_properties_best(dfs_best_cold,best_configs_cold,"profit_test")
+#test_profit_improvement_cold = calc_property_outcome(list_outcomes_cold, best_configs_cold, "impr_profit", "val")
+#test_regret_improvement_cold = calc_property_outcome(list_outcomes_cold, best_configs_cold, "impr_regret", "val")
 
 list_evols_warm,_ = read_evol_lists(list_dirs_warm,false)
 list_evols_red_warm = reduce_evol_lists(list_evols_warm)
 dfs_best_warm = get_dataframes_best(list_evols_red_warm)
 df_best_sorted_warm,best_configs_warm = sort_df(dfs_best_warm)
-test_profits_warm = get_properties_best(dfs_best_warm,best_configs_warm,"profit_test")
 list_outcomes_warm = get_outcomes(list_dirs_warm)
-train_times_warm = get_property_outcome_config(list_outcomes_warm,best_configs_warm,"b_train_time")
-test_profit_improvement_warm = calc_property_outcome(list_outcomes_warm, best_configs_warm, "impr_profit", "val")
-test_regret_improvement_warm = calc_property_outcome(list_outcomes_warm, best_configs_warm, "impr_regret", "val")
+#test_profits_warm = get_properties_best(dfs_best_warm,best_configs_warm,"profit_test")
+#test_profit_improvement_warm = calc_property_outcome(list_outcomes_warm, best_configs_warm, "impr_profit", "val")
+#test_regret_improvement_warm = calc_property_outcome(list_outcomes_warm, best_configs_warm, "impr_regret", "val")
 
 
 list_outcomes_reform = get_outcomes(list_dirs_reform)
 df_best_sorted_reform, best_configs_reform = sort_df(list_outcomes_reform,"outcome")
-train_times_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"b_train_time")
-test_profits_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"a_profit_test_opt")
-test_profit_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_profit", "val", true)
-test_regret_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_regret", "val", true)
+#test_profits_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"a_profit_test_opt")
+#test_profit_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_profit", "val", true)
+#test_regret_improvement_reform = calc_property_outcome(list_outcomes_reform, best_configs_reform, "impr_regret", "val", true)
 
 
 profit_pf_val = get_profit(list_outcomes_cold,best_configs_cold,"PF", "val")
@@ -460,6 +455,11 @@ test_regret_impr_cold = [(test_regret_cold[i]-regret_fc_test[i])/regret_fc_test[
 test_regret_impr_warm = [(test_regret_warm[i]-regret_fc_test[i])/regret_fc_test[i] for i in 1:length(test_regret_warm)]
 test_regret_impr_reform = [(test_regret_reform[i]-regret_fc_test[i])/regret_fc_test[i] for i in 1:length(test_regret_reform)]
 
+#Values of train time in Table 1 and Table 2
+train_times_cold = get_property_outcome_config(list_outcomes_cold,best_configs_cold,"b_train_time")
+train_times_warm = get_property_outcome_config(list_outcomes_warm,best_configs_warm,"b_train_time")
+train_times_reform = get_property_outcome_config(list_outcomes_reform,best_configs_reform,"b_train_time")
+
 
 #Values of abs regret in Table 2
 val_regret_cold = get_properties_best(dfs_best_cold,best_configs_cold,"regret_val")
@@ -473,7 +473,89 @@ val_regret_impr_reform = [(val_regret_reform[i]-regret_fc_val[i])/regret_fc_val[
 
 
 
-#Values of train time in Table 1
+
+
+
+
+
+
+##### Plot profit vs mu #####
+
+list_dirs = [
+    # "2023091_scaled_IP_manualD_softplus_warmStart",
+    # "20230913_scaled_IP_manualS_softplus_warmStart",
+    # "20230913_scaled_IP_auto_softplus_warmStart",
+    "20230919_scaled_IP_manualD_softplus_warm",
+    "20230919_scaled_IP_manualS_softplus_warm",
+    "20230919_scaled_IP_auto_softplus_warm",
+]
+
+list_evol_lists,_ = read_evol_lists(list_dirs)
+
+list_evol_lists_reduced = reduce_evol_lists(list_evol_lists)
+
+list_df_best_outcomes = get_dataframes_best(list_evol_lists_reduced)
+
+_,list_best_configs = sort_df(list_df_best_outcomes)
+
+vis = "regret_evol_train"
+
+labels = ["Sp-R-IPd","Sp-R-IPs","Sp-R-IP"]
+
+plot()
+
+for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced))
+
+    println(i)
+    dict = list[13]
+    mu = log10.(dict["list_mu"])
+    prop = dict[vis]
+
+    plot!(mu,prop,
+    label=labels[i],
+    marker=:circle,
+    ms=10,
+    linewidth=10,
+    xguidefontsize=40,
+    yguidefontsize=40,
+    xticks=:auto,xtickfontsize=30,
+    yticks=:auto,ytickfontsize=30,
+    xguide="log(μ)",
+    yguide="Train regret (€)",
+    legendfontsize=30,
+    legend=:bottomleft,
+    size=(1500,1100),
+    left_margin = 15Plots.mm,
+    bottom_margin= 10Plots.mm,
+    latex=true
+    )
+    
+
+end
+
+
+xflip!()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
