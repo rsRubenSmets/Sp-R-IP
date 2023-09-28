@@ -17,11 +17,6 @@ include("../experiment/functions_support.jl")
 include("functions_support_results.jl")
 
 
-
-
-
-
-
 #### Obtaining results of Table 1 and Table 2  #####
 
 

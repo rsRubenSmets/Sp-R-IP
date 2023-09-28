@@ -15,21 +15,21 @@ if __name__ == '__main__':
 
     # Definition of the model
     reforecast_type = "ID_Q"  # This script only supports the ID_Q reforecaster
-    nn_type = "softplus"  # "linear" or "softplus"
-    warm_start = True
+    nn_type = "linear"  # "linear" or "softplus"
+    warm_start = False
 
     #Definition of hyperaparmeters
     dict_hps = {
-        'reg': [0], #[0,0.01],
-        'batches': [64], #[8,64],
-        'gamma': [0], #[0.1,0.3,1,3,10],
-        'lr': [0.00005], #[0.000005,0.00005],
-        'list_units': [[]],
-        'list_act': [[]] #[['softplus']]
+        'reg': [0,0.01], #[0,0.01],
+        'batches': [8,64], #[8,64],
+        'gamma': [0.1,0.3,1,3,10], #[0.1,0.3,1,3,10],
+        'lr': [0.000005,0.00005], #[0.000005,0.00005],
+        #'list_units': [[]],
+        #'list_act': [[]] #[['softplus']]
     }
 
     #Folder to store results in
-    store_code='test_python_ID' #has to be other name than existing folder with results; best to include "_ID" in name for processing results
+    store_code='ID_Q_linear_cold_2' #has to be other name than existing folder with results; best to include "_ID" in name for processing results
 
 
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     training_dict = {
         'device': 'cpu',
         'model_type': "LR",
-        'epochs': 2,
+        'epochs': 200,
         'patience': 25,
         'type_train_labels': 'price',  # 'price' or 'price_schedule'
         'start_from_fc': warm_start,

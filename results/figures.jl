@@ -43,13 +43,14 @@ labels = ["Sp-R-IPd","Sp-R-IPs","Sp-R-IP"]
 
 #Figure 2a
 vis = "regret_evol_train"
+c = 13
 
 plot()
 
 for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced))
 
     println(i)
-    dict = list[13]
+    dict = list[c]
     mu = log10.(dict["list_mu"])
     prop = dict[vis]
 
@@ -86,7 +87,7 @@ plot()
 for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced))
 
     println(i)
-    dict = list[13]
+    dict = list[c]
     mu = log10.(dict["list_mu"])
     prop = dict[vis]
 
@@ -100,7 +101,7 @@ for (i,(config,list)) in enumerate(zip(list_best_configs,list_evol_lists_reduced
     xticks=:auto,xtickfontsize=30,
     yticks=:auto,ytickfontsize=30,
     xguide="log(μ)",
-    yguide="Train regret (€)",
+    yguide="Validation regret (€)",
     legendfontsize=30,
     legend=:bottomleft,
     size=(1500,1100),

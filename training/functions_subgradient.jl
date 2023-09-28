@@ -154,11 +154,15 @@ function subgradient_training_flux(params_dict,training_dict,dict_all,training_l
             for (i,p) in enumerate(Flux.params(model))
                 grad_reg = l1_loss_grad(p,λ)
 
-                grad_tot = -total_grads[i]/n_examples + grad_reg
+                #grad_tot = -total_grads[i]/n_examples + grad_reg
+                grad_tot = total_grads[i]/n_examples + grad_reg
+
                 Flux.clamp!(grad_tot,-clip_val,clip_val) #gradient clipping
 
                 #Take step
-                Flux.Optimise.update!(p, lr .* grad_tot)
+                #Flux.Optimise.update!(p, lr .* grad_tot)
+                Flux.Optimise.update!(p, -lr .* grad_tot)
+
             end
 
             println("Updated batch $(b) in epoch $(e)")
