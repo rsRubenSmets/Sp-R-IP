@@ -46,8 +46,8 @@ warm_start = false
 dict_hps = Dict(
     #choice of hyperaparemeters to be tuned. The training procedure will exploit all possible combinations (grid search)
     "reg" => [0], #Regularizer: [0,0.001,0.1,10] for "Sp_IP", [0,0.0001,0.01,1] for "Sp_SG"
-    "batch_size" => [64],  #[64] for "Sp_IP", [8,64] for "Sp_SG"
-    "perturbation" => [0.1], #Allowed perturbation of re-forecaster compared to initial FC: [0,0.5,0.1,0.02] for "Sp_IP", [0] for "Sp_SG" (0 meaning no constraint)
+    "batch_size" => [64],  #[64] for "Sp_IP", [16,64] for "Sp_SG"
+    "perturbation" => [0], #Allowed perturbation of re-forecaster compared to initial FC: [0,0.5,0.1,0.02] for "Sp_IP", [0] for "Sp_SG" (0 meaning no constraint)
     "restrict_forecaster_ts" => [true], #whether or not we restrict the re-forecaster to make predictions based only on features of current timestep [true,false] for "Sp_IP", [false] for "Sp_SG"
     "lr" => [0], #Start point of learning rate for subgradient method: "[0] for "Sp_IP", [0.001,0.01,0.1,1] for "Sp_SG"
     )
