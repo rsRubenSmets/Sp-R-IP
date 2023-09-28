@@ -226,8 +226,6 @@ end
 yaxis!("Regret (€)")
 xaxis!("Training iteration")
 
-savefig("train_orig.png")
-
 
 #Figure 3b
 plot(
@@ -262,8 +260,6 @@ end
 yaxis!("Regret (€)")
 xaxis!("Training iteration")
 
-savefig("train_mod.png")
-
 
 #Figure 3c
 plot(
@@ -297,8 +293,6 @@ end
 yaxis!("Regret (€)")
 xaxis!("Training iteration")
 
-savefig("val_orig.png")
-
 
 #Figure 3d
 plot(
@@ -331,8 +325,6 @@ end
 
 yaxis!("Regret (€)")
 xaxis!("Training iteration")
-
-savefig("val_mod.png")
 
 
 
@@ -445,11 +437,10 @@ p1 = plot(c_fc, label="ĉ",
 plot!(c_act, label="c", linewidth=lw)
 plot!(c_adj, label="2ĉ -c", linewidth=lw)
 xaxis!("Hour of day", fontsize=100)
-yaxis!("Opposite price (€)")
+yaxis!("Cost (€)")
 plot!(xticks=(2:2:24, string.(2:2:24))) 
 
 plot!()
-
 
 
 
