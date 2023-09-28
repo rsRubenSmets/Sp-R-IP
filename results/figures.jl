@@ -23,9 +23,9 @@ include("functions_support_results.jl")
 ##### Obtaining Figure 2 #####
 #Pre-processing
 list_dirs = [
-    "20230919_scaled_IP_manualD_softplus_warm",
-    "20230919_scaled_IP_manualS_softplus_warm",
-    "20230919_scaled_IP_auto_softplus_warm",
+    "Sp_R_IPd_softplus_warm",
+    "Sp_R_IPs_softplus_warm",
+    "Sp_R_IP_softplus_warm",
 ]
 
 list_evol_lists,_ = read_evol_lists(list_dirs,false)
@@ -123,15 +123,15 @@ xflip!()
 dict_read_codes_3a = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
-    "Sp-R-IP" => ["julia", "20230811_scaled_softplus_warmStart_dynamic/",11,"train_profit"],
-    "γ=0.01" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit"],
-    "γ=0.03" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit"],
-    "γ=0.1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit"],
-    "γ=0.3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit"],
-    "γ=1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit"],
-    "γ=3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit"],
-    "γ=10" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit"],
-    "γ=30" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit"],
+    "Sp-R-IP" => ["julia", "Sp_R_IPd_softplus_warm_fig3/",11,"train_profit"],
+    "γ=0.01" => ["python", "IDQ_softplus_warm_fig3",1,"train_profit"],
+    "γ=0.03" => ["python", "IDQ_softplus_warm_fig3",2,"train_profit"],
+    "γ=0.1" => ["python", "IDQ_softplus_warm_fig3",3,"train_profit"],
+    "γ=0.3" => ["python", "IDQ_softplus_warm_fig3",4,"train_profit"],
+    "γ=1" => ["python", "IDQ_softplus_warm_fig3",5,"train_profit"],
+    "γ=3" => ["python", "IDQ_softplus_warm_fig3",6,"train_profit"],
+    "γ=10" => ["python", "IDQ_softplus_warm_fig3",7,"train_profit"],
+    "γ=30" => ["python", "IDQ_softplus_warm_fig3",8,"train_profit"],
 
 )
 
@@ -139,28 +139,28 @@ dict_read_codes_3b = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
     
-    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"train_profit_RA"],
-    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"train_profit_RA"],
-    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"train_profit_RA"],
-    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"train_profit_RA"],
-    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"train_profit_RA"],
-    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"train_profit_RA"],
-    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"train_profit_RA"],
-    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"train_profit_RA"],
+    "γ=0.01|mod" => ["python", "IDQ_softplus_warm_fig3",1,"train_profit_RA"],
+    "γ=0.03|mod" => ["python", "IDQ_softplus_warm_fig3",2,"train_profit_RA"],
+    "γ=0.1|mod" => ["python", "IDQ_softplus_warm_fig3",3,"train_profit_RA"],
+    "γ=0.3|mod" => ["python", "IDQ_softplus_warm_fig3",4,"train_profit_RA"],
+    "γ=1|mod" => ["python", "IDQ_softplus_warm_fig3",5,"train_profit_RA"],
+    "γ=3|mod" => ["python", "IDQ_softplus_warm_fig3",6,"train_profit_RA"],
+    "γ=10|mod" => ["python", "IDQ_softplus_warm_fig3",7,"train_profit_RA"],
+    "γ=30|mod" => ["python", "IDQ_softplus_warm_fig3",8,"train_profit_RA"],
 
 )
 dict_read_codes_3c = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
-    "Sp-R-IP" => ["julia", "20230811_scaled_softplus_warmStart_dynamic/",11,"val_profit"],
-    "γ=0.01" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"val_profit"],
-    "γ=0.03" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"val_profit"],
-    "γ=0.1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"val_profit"],
-    "γ=0.3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"val_profit"],
-    "γ=1" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"val_profit"],
-    "γ=3" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"val_profit"],
-    "γ=10" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"val_profit"],
-    "γ=30" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"val_profit"],
+    "Sp-R-IP" => ["julia", "Sp_R_IPd_softplus_warm_fig3/",11,"val_profit"],
+    "γ=0.01" => ["python", "IDQ_softplus_warm_fig3",1,"val_profit"],
+    "γ=0.03" => ["python", "IDQ_softplus_warm_fig3",2,"val_profit"],
+    "γ=0.1" => ["python", "IDQ_softplus_warm_fig3",3,"val_profit"],
+    "γ=0.3" => ["python", "IDQ_softplus_warm_fig3",4,"val_profit"],
+    "γ=1" => ["python", "IDQ_softplus_warm_fig3",5,"val_profit"],
+    "γ=3" => ["python", "IDQ_softplus_warm_fig3",6,"val_profit"],
+    "γ=10" => ["python", "IDQ_softplus_warm_fig3",7,"val_profit"],
+    "γ=30" => ["python", "IDQ_softplus_warm_fig3",8,"val_profit"],
 
 )
 
@@ -168,14 +168,14 @@ dict_read_codes_3d = OrderedDict(
     #Dictionary with combination of read code, config and value to be inspected
     #Value: choice of 'train_profit', 'val_profit', 'test_profit', 'train_profit_RA', 'val_profit_RA', 'test_profit_RA', 'mu'
     
-    "γ=0.01|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",1,"val_profit_RA"],
-    "γ=0.03|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",2,"val_profit_RA"],
-    "γ=0.1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",3,"val_profit_RA"],
-    "γ=0.3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",4,"val_profit_RA"],
-    "γ=1|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",5,"val_profit_RA"],
-    "γ=3|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",6,"val_profit_RA"],
-    "γ=10|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",7,"val_profit_RA"],
-    "γ=30|mod" => ["python", "20230815_scaled_softplus_warmStart_gamma_long_patience100",8,"val_profit_RA"],
+    "γ=0.01|mod" => ["python", "IDQ_softplus_warm_fig3",1,"val_profit_RA"],
+    "γ=0.03|mod" => ["python", "IDQ_softplus_warm_fig3",2,"val_profit_RA"],
+    "γ=0.1|mod" => ["python", "IDQ_softplus_warm_fig3",3,"val_profit_RA"],
+    "γ=0.3|mod" => ["python", "IDQ_softplus_warm_fig3",4,"val_profit_RA"],
+    "γ=1|mod" => ["python", "IDQ_softplus_warm_fig3",5,"val_profit_RA"],
+    "γ=3|mod" => ["python", "IDQ_softplus_warm_fig3",6,"val_profit_RA"],
+    "γ=10|mod" => ["python", "IDQ_softplus_warm_fig3",7,"val_profit_RA"],
+    "γ=30|mod" => ["python", "IDQ_softplus_warm_fig3",8,"val_profit_RA"],
 
 )
 
@@ -357,7 +357,7 @@ labels_train,labels_val,labels_test = preprocess_labels(training_dict["type_trai
 
 
 list_dirs = [
-    "20230924_subgradient_softplus_warm_1_59",
+    "Sp_SG_softplus_warm_fig4",
 ]
 
 
