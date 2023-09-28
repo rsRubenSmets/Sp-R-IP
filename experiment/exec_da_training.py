@@ -1,12 +1,5 @@
-#import numpy as np
-#import pandas as pd
-#import datetime as dt
 import os
-#import cvxpy as cp
-#import torch
 import copy
-#import time
-#import csv
 import sys
 import math
 import functions_support as sf
@@ -36,7 +29,7 @@ if __name__ == '__main__':
     }
 
     #Folder to store results in
-    store_code='test_python' #has to be other name than existing folder with results
+    store_code='test_python_ID' #has to be other name than existing folder with results; best to include "_ID" in name for processing results
 
 
 

@@ -53,7 +53,8 @@ dict_hps = Dict(
     )
 
 #Store code; A folder with this name will be created in ../training/train/outcome/ containing all the information of the training procedure
-store_code = "test" #has to be other name than existing folder with results
+store_code = "test" #has to be other name than existing folder with results; best to include "_SG" or "_IP" in name for processing results
+
 
 
 
