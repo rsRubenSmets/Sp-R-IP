@@ -17,10 +17,6 @@ import datetime as dt
 
 
 
-
-
-
-
 ##### OPTIMIZATION MODEL FUNCTIONS #####
 
 def get_opti_matrices(D_out):
@@ -754,13 +750,11 @@ def split_features_labels_train_validation(features, labels, amount_of_validatio
     return get_arrays_from_positions(features, labels, start_array_val, end_array_val, start_array_train,
                                      end_array_train, amount_of_validation_periods)
 
-
 def get_lost_instances(amount_of_validation_periods, lookahead):
     if amount_of_validation_periods < 2:
         return amount_of_validation_periods * lookahead
     elif amount_of_validation_periods >= 2:
         return (amount_of_validation_periods - 1) * 2 * lookahead
-
 
 def get_pos_arrays(amount_of_validation_periods, total_instances, lookahead, share_validation):
     amount_of_training_periods = amount_of_validation_periods - 1
@@ -795,7 +789,6 @@ def get_pos_arrays(amount_of_validation_periods, total_instances, lookahead, sha
     end_array_val.append(total_instances)
 
     return start_array_val, end_array_val, start_array_train, end_array_train
-
 
 def get_arrays_from_positions(features, labels, start_array_val, end_array_val, start_array_train, end_array_train,
                               amount_of_validation_periods):
