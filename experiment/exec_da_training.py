@@ -12,6 +12,7 @@ import math
 import functions_support as sf
 sys.path.insert(0,'../training')
 import functions_cvxpylayers as clf
+import classes_torch as ct
 
 
 if __name__ == '__main__':
@@ -21,8 +22,8 @@ if __name__ == '__main__':
 
     # Definition of the model
     reforecast_type = "ID_Q"  # This script only supports the ID_Q reforecaster
-    nn_type = "linear"  # "linear" or "softplus"
-    warm_start = False
+    nn_type = "softplus"  # "linear" or "softplus"
+    warm_start = True
 
     #Definition of hyperaparmeters
     dict_hps = {
@@ -56,7 +57,7 @@ if __name__ == '__main__':
     training_dict = {
         'device': 'cpu',
         'model_type': "LR",
-        'epochs': 1,
+        'epochs': 2,
         'patience': 25,
         'type_train_labels': 'price',  # 'price' or 'price_schedule'
         'start_from_fc': warm_start,
@@ -134,7 +135,7 @@ if __name__ == '__main__':
     #Creat a differentiable optimization layer. RN refers to Risk Neutral, meaning the original problem without smoothing term
     # This requires gamma to be 0 at this point
     OP_params_dict['gamma'] = 0
-    optiLayer_RN = sf.OptiLayer(OP_params_dict)
+    optiLayer_RN = ct.OptiLayer(OP_params_dict)
 
     training_dict['optiLayer_RN'] = optiLayer_RN
 

@@ -1,5 +1,6 @@
 import torch
 import functions_support as sf
+import classes_torch as ct
 import numpy as np
 import time
 import random
@@ -221,7 +222,7 @@ def hp_tuning_cvxpylayers_2(input_dict):
 
     def initialize_net(input_feat,output_dim,list_units,list_act,start_from_fc,params_dict,check_after=False):
 
-        init_net = sf.NeuralNet(input_feat,output_dim,list_units, list_act)
+        init_net = ct.NeuralNet(input_feat,output_dim,list_units, list_act)
 
         if start_from_fc:
             if check_after or list_units == []:
@@ -294,9 +295,9 @@ def hp_tuning_cvxpylayers_2(input_dict):
     #pretrained_fc, train_loss_best, valid_loss_best, test_loss_best = train_nn(training_dict)
 
 
-    net_opti = sf.NeuralNetWithOpti(init_net,params_dict)
+    net_opti = ct.NeuralNetWithOpti(init_net,params_dict)
 
-    profit_cal_fct = sf.Loss_profit()
+    profit_cal_fct = ct.Loss_profit()
 
     train_sched_0 = net_opti(train_feat)
     val_sched_0 = net_opti(val_feat)
