@@ -19,29 +19,6 @@ include("../experiment/functions_support.jl")
 include("functions_support_results.jl")
 
 
-# function get_linestyle(lang)
-#     if lang == "julia"
-#         return :solid
-#     elseif lang == "python"
-#         return :dash
-#     end
-# end
-
-# function get_color(folder)
-#     if occursin("linear", folder)
-#         return :blue
-#     elseif occursin("softplus", folder)
-#         return :green
-#     elseif occursin("relu", folder)
-#         return :Base.liblapack_name
-#     end
-# end
-
-# function reduce_output_auto(dict_evol)
-#     mu = dict_evol["mu"]
-
-# end
-
 
 ##### Obtaining Figure 2 #####
 #Pre-processing
@@ -203,14 +180,12 @@ dict_read_codes_3d = OrderedDict(
 )
 
 
-colors = palette([:blue,:yellow],length(dict_read_codes_orig))
+colors = palette([:blue,:yellow],length(dict_read_codes_3a))
 
 profit_dict_3a = get_prop_dict(dict_read_codes_3a)
 profit_dict_3b = get_prop_dict(dict_read_codes_3b)
 profit_dict_3c = get_prop_dict(dict_read_codes_3c)
 profit_dict_3d = get_prop_dict(dict_read_codes_3d)
-
-profit_dict_mod = get_prop_dict(dict_read_codes_mod)
 
 profit_val_pf = 0.489199348469553
 profit_test_pf = 0.515363768
@@ -388,22 +363,12 @@ list_dirs = [
 
 list_evols,list_fc_lists = read_evol_lists(list_dirs,true)
 list_evols_red = reduce_evol_lists(list_evols)
-# dfs_best = get_dataframes_best(list_evols_red)
-# df_best_sorted,best_configs = sort_df(dfs_best)
-# test_profits = get_properties_best(dfs_best,best_configs,"profit_test")
-# test_regret = get_properties_best(dfs_best,best_configs,"regret_test")
-# list_outcomes = get_outcomes(list_dirs)
-# train_times = get_property_outcome_config(list_outcomes,best_configs,"b_train_time")
-# test_profit_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_profit", "test")
-# test_regret_improvement = calc_property_outcome(list_outcomes, best_configs, "impr_regret", "test")
 fc_price = calc_price_evolution(list_fc_lists,features_train)
-# subgradient,abs_sum_subgrad = calc_subgradient(fc_price,labels_train[1],OP_params_dict)
 
 index1 = 100
-index2 = 198
 config = 16
 
-evols = list_evols_red[1][16]
+evols = list_evols_red[1][config]
 
 
 c_fc = -fc_price[config][index1][1:24]

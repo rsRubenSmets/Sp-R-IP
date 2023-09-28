@@ -1,5 +1,7 @@
 function hp_tuning_spo_par(input_dict)
+    #Overarching function of the training process, unpacking all the relevant data of the input dict, calling the training function, and performing post-training calculations, which are saved and returned in a dictionary
     
+    #load data
     train_feat, train_lab, val_feat, val_lab, test_feat, test_lab = input_dict["list_tensors"]
     train_lab_training, val_lab_training, test_lab_training = train_lab, val_lab, test_lab
 
@@ -30,11 +32,8 @@ function hp_tuning_spo_par(input_dict)
     
     pos_fc = params_dict["pos_fc"]
     net_fc = zeros(Float64, lookahead, lookahead * n_diff_features)
-    #Initially nets had other dimensions
-    #net_fc = zeros(Float64, lookahead*3+1, lookahead * n_diff_features)
     for i in 1:lookahead
         net_fc[i, (i - 1) * n_diff_features + pos_fc] = -params_dict["eff_d"]
-        #net_fc[i+lookahead, (i - 1) * n_diff_features + pos_fc] = 1/params_dict["eff_c"]
     end
 
     batch_size=input_dict["batch_size"]
@@ -47,7 +46,7 @@ function hp_tuning_spo_par(input_dict)
 
     @show(batch_size)
 
-
+    #Define dataloader
     if model_type == "edRNN"
         if training_dict["type_train_labels"] == "price_schedule"
             train_Dataset = Flux.Data.DataLoader([train_feat[1], train_feat[2], train_lab_training[1], train_lab_training[2]], batchsize=batch_size, shuffle=true)
@@ -76,9 +75,7 @@ function hp_tuning_spo_par(input_dict)
     input_dict_config["val_lab"] = val_lab
 
 
-    # Perfect foresight benchmark for regret
-
-
+    # Perfect foresight profit benchmark for calculating regret
     profit_PF_train = calc_profit_from_price_fc(train_lab[1],params_dict,train_lab[1])
     @show(profit_PF_train)
     profit_PF_val = calc_profit_from_price_fc(val_lab,params_dict,val_lab)
@@ -89,6 +86,7 @@ function hp_tuning_spo_par(input_dict)
 
     tic=time()
 
+    #Actual 'training' of the neural network via chosen procedure
     list_fc_lists, dict_evols, time_WS = train_spo_new(input_dict_config)
 
     n_iters = length(list_fc_lists)
@@ -110,14 +108,8 @@ function hp_tuning_spo_par(input_dict)
 
 
 
-
+    # For all the intermediate outcomes accessed by the solver, calculate the downstream profit
     for (iter,net) in enumerate(list_fc_lists)
-        # train_profit = get_profit(net, params_dict, train_feat, train_lab[1])
-        # validation_profit = get_profit(net, params_dict, val_feat, val_lab)
-        # test_profit = get_profit(net, params_dict, test_feat, test_lab)
-
-        #@show(net)
-
 
         train_profit = calc_profit_from_forecaster(net, params_dict, train_feat, train_lab[1])
         validation_profit = calc_profit_from_forecaster(net, params_dict, val_feat, val_lab)
@@ -150,6 +142,7 @@ function hp_tuning_spo_par(input_dict)
 
     println("Performance of best net: Train profits: $train_profit_best, Validation profits: $val_profit_best, Test profits: $test_profit_best")
 
+    #Also calculate the final profit obtained by the initial forecaster (fc) and the last point accessed by the solver, i.e. the opimal solution found (opt)
     train_profit_fc = get_profit([net_fc], params_dict, train_feat, train_lab[1])
     validation_profit_fc = get_profit([net_fc], params_dict, val_feat, val_lab)
     test_profit_fc = get_profit([net_fc], params_dict, test_feat, test_lab)
@@ -160,6 +153,8 @@ function hp_tuning_spo_par(input_dict)
     test_profit_opt = get_profit(list_fc_lists[end], params_dict, test_feat, test_lab)
     println("Train profits optimal: $train_profit_opt, Validation profits optimal: $validation_profit_opt, Test profits optimal: $test_profit_opt")
     
+
+    #Save all the relevant outcomes and put them in a dictionary to be returned by the function
     dict_evols["profit_evol_train"] = profit_evol_train
     dict_evols["profit_evol_val"] = profit_evol_val
     dict_evols["profit_evol_test"] = profit_evol_test
@@ -203,38 +198,8 @@ function hp_tuning_spo_par(input_dict)
 
 end
 
-function train_spo(dict)
-    training_loader = dict["training_loader"]
-    params_dict = dict["params_dict"]
-    training_dict = dict["training_dict"]
-
-    reg = get(dict, "reg", 0)
-    params_dict["reg"] = reg
-
-    list_fc_lists = nothing
-    obj_values = nothing
-    list_mu = nothing
-    list_vars = nothing
-
-    for (i, data) in enumerate(training_loader)
-        features, labels_price, labels_schedule = data
-        features, labels_price, labels_schedule = transpose(features), transpose(labels_price),transpose(labels_schedule)
-
-
-        labels_price_ext = zeros(Float64, size(labels_price, 1), size(labels_price, 2) * 3 + 1)
-        for i in 1:size(labels_price, 1)
-            labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
-        end
-
-        list_fc_lists, obj_values, list_mu,list_vars = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict, warm_start=training_dict["warm_start"])
-    end
-
-
-
-    return list_fc_lists, obj_values, list_mu,list_vars
-end
-
 function train_spo_new(dict)
+    #Function calling either the subgradient training method, or the IP training method, returning the evolution of forecasters accessed by the respective solution procedures
 
     training_loader = dict["training_loader"]
     params_dict = dict["params_dict"]
@@ -321,7 +286,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
     end
 
     function set_initial_values(list_variables,warm_start)
-
+        #Function setting the initial values of the varaibles of the ERM to feasible points of a slightly modified ERM, where the output of the re-forecaster has to coincide with a pre-trained model
         pretrained_fc = training_dict["pretrained_fc"]
 
 
@@ -555,7 +520,6 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             set_optimizer_attribute(prob, "SimplexCallback", collect_points)
         end
 
-
         println("***** STARTING TRAINING *****")
         memory = @allocated optimize!(prob)
         println("Allocated memory: $(memory)")
@@ -595,6 +559,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
 end
 
 function spo_plus_erm_cvxpy_new(;params_dict, training_dict, examples, c, optimal_schedules,train_type)
+    #Function returning optimization program defining the ERM, together with a list of the variables that define the forecaster, and a list of all variables
    
     A, b = get_full_matrix_problem_DA(params_dict)
     A = sparse(A)
@@ -694,7 +659,6 @@ function spo_plus_erm_cvxpy_new(;params_dict, training_dict, examples, c, optima
             println("Correct constraint prob")
             @NLconstraint(model,[i=1:n_examples,j=1:nhu_1], z1[i,j] == 1/(1 + exp( -sum(examples[i,k]*W1[j,k] for k in 1:n_features)  - b1[j] ) ) )
         end
-        #@NLconstraint(model,[i=1:n_examples,j=1:nhu_1], z1[i,j] == (sum(examples[i,k]*W1[j,k] for k in 1:n_features)  + b1[j])^2)
 
 
         @constraint(model,W1_abs .<= 5)
@@ -761,6 +725,7 @@ function spo_plus_erm_cvxpy_new(;params_dict, training_dict, examples, c, optima
 end
 
 function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c, list_pretrained_fc, train_type)
+    # Defining a feasibility optimization program to warm start the ERM
    
     A, b = get_full_matrix_problem_DA(params_dict)
     A = sparse(A)
@@ -809,8 +774,7 @@ function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c
     elseif training_dict["train_mode"] == "nonlinear"
 
         nhu_1 = lookahead
-        hu_per_la = Int(nhu_1/lookahead)
-
+        #hu_per_la = Int(nhu_1/lookahead)
 
         @variable(model, W1[1:nhu_1, 1:n_features])
         @variable(model,b1[1:nhu_1])
@@ -838,32 +802,8 @@ function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c
             @NLconstraint(model,[i=1:n_examples,j=1:nhu_1], z1[i,j] == 1/(1 + exp( -sum(examples[i,k]*W1[j,k] for k in 1:n_features)  - b1[j] ) ) )
         end
 
-
-        #@NLconstraint(model,[i=1:n_examples,j=1:nhu_1], z1[i,j] == (sum(examples[i,k]*W1[j,k] for k in 1:n_features)  + b1[j])^2)
-
         @constraint(model,[i=1:n_examples,j=1:lookahead], c_hat[i,j] == sum(z1[i,k]*W2[j,k] for k in 1:nhu_1) + b2[j])
     
-        # restriction not necessary because pretrained forecaster already in this form
-        # if restrict_forecaster_ts
-        #     for i in 1:nhu_1
-        #         for j in 1:n_features
-        #             if j < n_diff_features * (i - 1) + 1
-        #                 @constraint(model, W1[i, j] == 0)
-        #             elseif j >= n_diff_features * i + 1
-        #                 @constraint(model, W1[i, j] == 0)
-        #             end
-        #         end
-        #         for la in 1:lookahead
-        #             if i < hu_per_la * (la - 1) + 1
-        #                 @constraint(model, W2[la,i] == 0)
-        #             elseif i >= hu_per_la * la + 1
-        #                 @constraint(model, W2[la,i] == 0)
-        #             end
-        #         end
-        #     end
-        # end
-
-
         list_forecaster = [W1,b1,W2,b2]
         list_variables = [W1,b1,W2,b2,W1_abs,W2_abs,z1,c_hat,p]
 
@@ -879,131 +819,3 @@ function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c
     return model, list_forecaster, list_variables
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###### OLD FUNCTIONS ######
-
-# function spo_plus_erm_cvxpy(;params_dict, examples, c, optimal_schedules)
-   
-#     A, b = get_full_matrix_problem_DA(params_dict)
-
-#     lookahead = params_dict["lookahead"]
-#     eff = params_dict["eff_d"]
-#     reg = params_dict["reg"]
-#     perturbation = params_dict["perturbation"]
-#     n_diff_features = params_dict["n_diff_features"]
-#     pos_fc = findfirst(x -> x == "y_hat", params_dict["feat_cols"])
-#     restrict_forecaster_ts = params_dict["restrict_forecaster_ts"]
-
-
-#     n_constraints = size(A, 1)
-#     prob_dim = size(A, 2)
-#     n_examples = size(examples, 1)
-#     n_features = size(examples, 2)
-
-#     model = Model(Ipopt.Optimizer)
-
-#     @variable(model, B[1:prob_dim, 1:n_features])
-#     @variable(model, B_abs[1:prob_dim, 1:n_features])
-#     @variable(model, p[1:n_examples, 1:n_constraints] >= 0)
-
-#     @constraint(model, [i=1:n_examples, j=1:prob_dim], sum(p[i, k] * A[k,j] for k in 1:n_constraints) == 2* sum(examples[i, k] * B[j,k] for k in 1:n_features) - c[i, j])
-#     @constraint(model, B[2 * lookahead + 1:end, :] .== 0)
-#     @constraint(model, B[1:lookahead, :] .== -B[lookahead+1:2*lookahead, :]*(eff^2))
-#     @constraint(model, B_abs .>= 0)
-#     @constraint(model, B_abs .>= B)
-#     @constraint(model, B_abs .>= -B)
-
-
-#     if perturbation > 0
-#         forecast_c = zeros(n_examples, lookahead)
-#         for ex in 1:n_examples
-#             for la in 1:lookahead
-#                 forecast_c[ex, la] = -examples[ex, pos_fc + (la - 1) * n_diff_features]
-#             end
-#         end
-#         @constraint(model, examples * transpose(B[1:lookahead, :]) .>= forecast_c*eff - perturbation * abs.(forecast_c*eff))
-#         @constraint(model, examples * transpose(B[1:lookahead, :]) .<= forecast_c*eff + perturbation * abs.(forecast_c*eff))
-#         println("perturbation: $perturbation")
-#     end
-
-#     if restrict_forecaster_ts
-#         for i in 1:lookahead
-#             for j in 1:n_features
-#                 if j < n_diff_features * (i - 1) + 1
-#                     @constraint(model, B[i, j] == 0)
-#                 elseif j >= n_diff_features * i + 1
-#                     @constraint(model, B[i, j] == 0)
-#                 end
-#             end
-#         end
-#     end
-
-
-
-#     @objective(
-#         model,
-#         Min,
-#         1 / n_examples * (-sum(p * b)+ 2 * tr(optimal_schedules * B * transpose(examples)) ) + reg * sum(B_abs) 
-#     )
-
-
-
-#     return model,B,p
-# end
-
-
-# function callback_intermediate_lin(alg_mod::Cint, iter_count::Cint, obj_value::Float64, inf_pr::Float64, inf_du::Float64, mu::Float64, d_norm::Float64, regularization_size::Float64, alpha_du::Float64, alpha_pr::Float64, ls_trials::Cint)
-        
-#     B_values_callback = [callback_value(prob, B[i,j]) for i in 1:size(B,1), j in 1:size(B,2)]
-
-#     push!(list_dicts,Dict("B"=>B_values_callback))
-#     return iter_count < 500
-# end
-
-# function callback_intermediate_NL(alg_mod::Cint, iter_count::Cint, obj_value::Float64, inf_pr::Float64, inf_du::Float64, mu::Float64, d_norm::Float64, regularization_size::Float64, alpha_du::Float64, alpha_pr::Float64, ls_trials::Cint)
-    
-#     dict_callback = Dict()
-
-#     for key in dict_forecaster
-#         dict_callback[key] = zeros(size(dict_forecaster[key]))
-#         #dict_callback[key] = callback_value.(prob,dict_forecaster[key])
-#     end
-
-    
-#     #push!(matrix, sum(abs.(B_values_callback)))
-#     push!(list_matrices,B_values_callback)
-#     return iter_count < 100
-# end
-
-

@@ -1,20 +1,21 @@
-function extend_price(price,params_dict,eff=true)
-    lookahead = size(price, 1)
-    eff_d = params_dict["eff_d"]
-    eff_c = params_dict["eff_c"]
+##### FUNCTIONS RELATING TO THE DOWNSTREAM OPTIMIZATION PROGRAM, PRICE AND PROFIT CALCULATION #####
 
-    extended_price = zeros(Float64, 3 * lookahead + 1)
-    for la in 1:lookahead
-        if eff
-            extended_price[la] = price[la]*eff_d
-            extended_price[lookahead + la] = -price[la]/eff_c
-        else
-            extended_price[la] = price[la]
-            extended_price[lookahead + la] = -price[la]
-        end
+function opti_da_cvxpy(params_dict, prices, solver)
+    A, b = get_full_matrix_problem_DA(params_dict)
+
+    lookahead = params_dict["lookahead"]
+    model = nothing
+    if solver == "IP"
+        model = Model(Ipopt.Optimizer)
+        set_silent(model)
+    elseif solver == "Gurobi"
+        model = Model(optimizer_with_attributes(Gurobi.Optimizer, "OutputFlag" => false))
     end
+    @variable(model, x[1:lookahead * 3 + 1])
+    @constraint(model,A*x .>= b)
+    @objective(model,Max,sum(prices[k]*x[k] for k in 1:lookahead*3+1))
 
-    return extended_price
+    return model,x
 end
 
 function get_full_matrix_problem_DA(params_dict)
@@ -105,6 +106,25 @@ function get_full_matrix_problem_DA(params_dict)
     return A, b
 end
 
+function extend_price(price,params_dict,eff=true)
+    lookahead = size(price, 1)
+    eff_d = params_dict["eff_d"]
+    eff_c = params_dict["eff_c"]
+
+    extended_price = zeros(Float64, 3 * lookahead + 1)
+    for la in 1:lookahead
+        if eff
+            extended_price[la] = price[la]*eff_d
+            extended_price[lookahead + la] = -price[la]/eff_c
+        else
+            extended_price[la] = price[la]
+            extended_price[lookahead + la] = -price[la]
+        end
+    end
+
+    return extended_price
+end
+
 function extend_price_full(price_full,params_dict)
     n_examples = size(price_full,1)
     extended_price_full = zeros(n_examples,size(price_full,2)*3+1)
@@ -136,24 +156,6 @@ function calc_optimal_schedule(prices, OP_params_dict, solver="IP", extended_pri
     end
 
     return optimal_schedule
-end
-
-function opti_da_cvxpy(params_dict, prices, solver)
-    A, b = get_full_matrix_problem_DA(params_dict)
-
-    lookahead = params_dict["lookahead"]
-    model = nothing
-    if solver == "IP"
-        model = Model(Ipopt.Optimizer)
-        set_silent(model)
-    elseif solver == "Gurobi"
-        model = Model(optimizer_with_attributes(Gurobi.Optimizer, "OutputFlag" => false))
-    end
-    @variable(model, x[1:lookahead * 3 + 1])
-    @constraint(model,A*x .>= b)
-    @objective(model,Max,sum(prices[k]*x[k] for k in 1:lookahead*3+1))
-
-    return model,x
 end
 
 function calc_price_from_net(net_list,input_features,act_function)
@@ -293,7 +295,7 @@ end
 
 
 
-####### Functions for data preprocessing #######
+####### FUNCTIONS FOR DATA PRE-PROCESSING #######
 
 function get_indices(last_ex_test, days_train, train_share, tot_n_examples,val_split_mode)
     idx_test = [tot_n_examples-i for i in 0:last_ex_test-1]
@@ -561,6 +563,120 @@ function preprocess_labels(type,price_train,price_val,price_test,OP_params_dict,
     end
 
     return labels_train,labels_val,labels_test
+end
+
+function get_loc_fc(data_dict,training_dict,machine)
+    
+    dirname = nothing
+    act = training_dict["activation_function"]
+    if machine == "local"
+        dirname = "./data/pretrained_fc/"
+    elseif machine == "vsc"
+        dirname = "../input_data/pretrained_fc/"
+    end
+
+    scaled_string = "unscaled"
+    if data_dict["scale_price"]
+        scaled_string = "scaled"
+    end
+
+    features_string = nothing
+    if data_dict["feat_cols"] == ["weekday", "NL+FR","GEN_FC","y_hat"]
+        features_string = "wd_nlfr_genfc_yhat"
+    end
+
+    filename = "$(dirname)model_$(act)_$(features_string)_$(scaled_string).bson"
+
+    return filename
+
+end
+
+function get_type_mode_mu(reforecast_type,nn_type)
+    train_mode = nothing
+    if nn_type == "linear"
+        train_mode = "linear"
+    elseif nn_type == "softplus"
+        train_mode = "nonlinear"
+    end
+    if reforecast_type == "Sp_SG"
+        return "SG", train_mode, "auto"
+    elseif reforecast_type == "Sp_IP"
+        return "IP", train_mode, "auto"
+    elseif reforecast_type == "Sp_IPs"
+        return "IP", train_mode, "manual_s"
+    elseif reforecast_type == "Sp_IPd"
+        return "IP", train_mode, "manual_d"
+    end
+end
+
+
+
+##### FUNCTIONS FOR SAVING THE OUTPUT OF THE TRAINING PROCEDURE #####
+
+function save_df(dict_outcome, dir)
+    path = joinpath(dir, "outcome.csv")
+
+    # Sort the keys of the dictionary
+    sorted_keys = sort(string.(keys(dict_outcome)))
+
+    # Create an empty DataFrame
+    df = DataFrame()
+
+    # Add columns to the DataFrame in sorted order
+    for key in sorted_keys
+        df[!, Symbol(key)] = dict_outcome[key]
+    end
+
+    # Write the DataFrame to a CSV file
+    CSV.write(path, df)
+    println("Saved")
+end
+
+function save_outcome_par(list_outcome_dicts,dir)
+    
+    for outcome_dict in list_outcome_dicts
+        list_best = outcome_dict["net_best"]
+        list_opti = outcome_dict["net_opti"]
+        hp_config = outcome_dict["a_config"]
+        dict_evols = outcome_dict["dict_evols"]
+        list_fc = outcome_dict["list_fc_lists"]
+
+        save("$(dir)config_$(hp_config)_best_net.jld2","best_net", list_best)
+        save("$(dir)config_$(hp_config)_opti_net.jld2","opti_net", list_opti)
+        save("$(dir)config_$(hp_config)_train_evols.jld2","train_evols", dict_evols)
+        save("$(dir)config_$(hp_config)_fc_evol.jld2","fc_evol",list_fc)       
+    end
+
+    dict_lists = convert_list_dict(list_outcome_dicts)
+
+    pop!(dict_lists,"dict_evols")
+    pop!(dict_lists,"list_fc_lists")
+    pop!(dict_lists,"net_best")
+    pop!(dict_lists,"net_opti")
+
+
+    save_df(dict_lists,dir)
+
+end
+
+function convert_list_dict(list_dicts)
+    #Function that converts list of dicts to dict of lists
+    
+    #Create empty dict with correct keys
+    dict_lists = Dict()
+
+    for key in keys(list_dicts[1])
+        dict_lists[key] = []
+    end
+
+    #iteratively push values to correct list
+    for config in 1:length(list_dicts)
+        for key in keys(list_dicts[1])
+            push!(dict_lists[key],list_dicts[config][key])
+        end
+    end
+
+    return dict_lists
 end
 
 
