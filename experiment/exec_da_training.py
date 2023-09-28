@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     #Definition of hyperaparmeters
     dict_hps = {
-        'reg': [0], #[0,0.1],
+        'reg': [0], #[0,0.01],
         'batches': [64], #[8,64],
         'gamma': [0], #[0.1,0.3,1,3,10],
         'lr': [0.00005], #[0.000005,0.00005],
