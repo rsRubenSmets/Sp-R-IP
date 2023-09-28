@@ -59,10 +59,10 @@ function locate_dir(dir)
     base_dir = "./training/train_output/"
 
 
-    if occursin("_ID",dir) 
+    if occursin("ID_",dir) 
         dir = base_dir*dir
         return dir,"h5"
-    elseif occursin("_IP",dir) || occursin("_subgradient",dir)
+    elseif occursin("_IP",dir) || occursin("_SG",dir)
         dir = base_dir*dir
         return dir, "jld2"
     else
