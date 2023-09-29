@@ -330,7 +330,7 @@ xaxis!("Training iteration")
 
 
 
-##### Obtaining Figure 3 #####
+##### Obtaining Figure 4 #####
 
 # Getting features
 
