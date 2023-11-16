@@ -20,6 +20,7 @@ include("functions_support_results.jl")
 
 
 
+
 ##### Obtaining Figure 2 #####
 #Pre-processing
 list_dirs = [

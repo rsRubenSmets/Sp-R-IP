@@ -407,8 +407,6 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             set_optimizer_attribute(model, "mu_init", curr_mu)
             set_optimizer_attribute(model, "max_iter", max_iters_single_opti)
 
-
-
    
             # Solve the problem with the current mu
             optimize!(model)
