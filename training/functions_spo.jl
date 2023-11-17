@@ -44,8 +44,6 @@ function hp_tuning_spo_par(input_dict)
     hp_config = input_dict["hp_config"]
     ws = input_dict["warm_start"]
 
-    @show(batch_size)
-
     #Define dataloader
     if model_type == "edRNN"
         if training_dict["type_train_labels"] == "price_schedule"
@@ -213,6 +211,7 @@ function train_spo_new(dict)
         obj_values = nothing
         list_mu = nothing
         train_time_WS = nothing
+        all_list_fc_lists = Dict()
 
         for (i, data) in enumerate(training_loader)
             features, labels_price, labels_schedule = data
@@ -225,7 +224,10 @@ function train_spo_new(dict)
             end
 
             list_fc_lists, obj_values, list_mu, train_time_WS = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
+            all_list_fc_lists[i] = list_fc_lists
         end
+
+        list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set")
 
         return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS
         
@@ -533,7 +535,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             elseif training_dict["mu_update"][end:end] == "d"
                 dec = 0.9
             else
-                exit("Invalid mu update setting")
+                exit("Unsupported mu update setting")
                 exit("$(training_dict["mu_update"]) is an invalid mu update setting")
             end
             print("dec = $(dec)")
@@ -816,4 +818,71 @@ function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c
 
     return model, list_forecaster, list_variables
 
+end
+
+function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,agg_type)
+    """
+    Function that aggregates a list of outputs of training outputs of individual batches into a single forecaster based on their performance on a specified dataset
+    # Args
+    - list_list_fc_lists: a list 
+    - feat: features (typically of a validation set) that serve as inputs to the forecaster
+    - lab: labels of that same set
+    - params_dict: dictionary containing the required information for calculating performance, such as optimization setting
+    - mode: determines whether the performance should be as low or high as possible
+    - agg_type: String specifying the method of aggregation. 
+
+    # Output
+    - fc_list: a single list containing the information of a single forecaster being the aggregate of the input 
+    """
+
+    function get_mul(mode)
+        if mode == "high" #The best performer has the highest value
+            return 1
+        elseif mode == "low" #The best performer has the lowest value
+            return -1
+        end
+    end
+
+    function get_best_performance_batch(list_fc_lists_batch,feat,lab,mul)
+        perfo_best_batch = -Inf*mul
+        index_best_batch = 1
+        fc_best_batch = list_fc_lists_batch[1]
+
+        for (i,fc) in enumerate(list_fc_lists_batch)
+            println("Iteration $(i)")
+            perfo = calc_profit_from_forecaster(fc, params_dict, feat, lab)
+            if mul*perfo >= mul*perfo_best_batch
+                println("***** New best found: updating validation performance from $(perfo_best_batch) to $(perfo) *****")
+                perfo_best_batch = perfo
+                index_best_batch = i
+                fc_best_batch = fc
+            end
+        end
+
+        return index_best_batch,fc_best_batch,perfo_best_batch
+    end
+
+    if agg_type == "full_set"
+
+        mul = get_mul(mode)
+        perfo_best = -Inf*mul
+        index_best = 1
+        fc_best = dict_list_fc_lists[1][1]
+
+        for (i,batch_outcome) in pairs(dict_list_fc_lists)
+            println("")
+            println("Starting validation calculation batch $(i)")
+            println("")
+            index,fc,perfo = get_best_performance_batch(batch_outcome,feat,lab,mul)
+            if mul*perfo >= mul*perfo_best
+                println("Updating current best value $(perfo_best) to $(perfo)")
+                perfo_best = perfo
+                index_best = (i,index)
+                fc_best = fc
+            end
+        end      
+        return [fc_best]
+    else
+        sys.exit("Unsupported batch aggregation type.")
+    end
 end
