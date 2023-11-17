@@ -75,7 +75,7 @@ function subgradient_training_flux(params_dict,training_dict,dict_all,training_l
     end
 
     function l1_loss_grad(p, λ)
-    #Calcualte L1 regularization loss gradient
+        #Calcualte L1 regularization loss gradient
 
         if ndims(p) == 2 #weights
             return λ*sign.(p)
