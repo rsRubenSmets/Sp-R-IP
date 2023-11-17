@@ -207,11 +207,11 @@ function train_spo_new(dict)
 
     if (train_type == "IP") || (train_type == "SL")
 
-        list_fc_lists = nothing
         obj_values = nothing
         list_mu = nothing
         train_time_WS = nothing
         all_list_fc_lists = Dict()
+        all_lists_mu = Dict()
 
         for (i, data) in enumerate(training_loader)
             features, labels_price, labels_schedule = data
@@ -225,9 +225,10 @@ function train_spo_new(dict)
 
             list_fc_lists, obj_values, list_mu, train_time_WS = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
             all_list_fc_lists[i] = list_fc_lists
+            all_lists_mu[i] = list_mu
         end
 
-        list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set")
+        list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
 
         return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS
         
@@ -820,16 +821,18 @@ function spo_plus_erm_cvxpy_feasibility(;params_dict, training_dict, examples, c
 
 end
 
-function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,agg_type)
+function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,agg_type,eval_type,dict_list_mu)
     """
     Function that aggregates a list of outputs of training outputs of individual batches into a single forecaster based on their performance on a specified dataset
     # Args
-    - list_list_fc_lists: a list 
+    - dict_list_fc_lists: a dict with the evolution of forecaster list how they evolved over the training for a specific batch, which is assigned an integer key
     - feat: features (typically of a validation set) that serve as inputs to the forecaster
     - lab: labels of that same set
     - params_dict: dictionary containing the required information for calculating performance, such as optimization setting
     - mode: determines whether the performance should be as low or high as possible
     - agg_type: String specifying the method of aggregation. 
+    - eval_type: String specifying the evaluation: "mu" or "newton" 
+    - dict_list_mu: Dictionary with same keys as dict_list_fc_lists with the evolution of log-barrier weights during the training of the respective batch
 
     # Output
     - fc_list: a single list containing the information of a single forecaster being the aggregate of the input 
@@ -843,15 +846,37 @@ function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,a
         end
     end
 
-    function get_best_performance_batch(list_fc_lists_batch,feat,lab,mul)
+    function check_lower_mu(list_mu_batch,i)
+        """
+        Function checking if the current index i represents a local 'solution' to the barrier problem, i.e. whether or not the next mu is strictly smaller
+        """
+        n = length(list_mu_batch)
+        if i<n
+            return list_mu_batch[i+1]<list_mu_batch[i]
+        else
+            return true
+        end
+    end
+
+    function get_best_performance_batch(list_fc_lists_batch,list_mu_batch,feat,lab,mul)
         perfo_best_batch = -Inf*mul
         index_best_batch = 1
         fc_best_batch = list_fc_lists_batch[1]
 
         for (i,fc) in enumerate(list_fc_lists_batch)
             println("Iteration $(i)")
-            perfo = calc_profit_from_forecaster(fc, params_dict, feat, lab)
-            if mul*perfo >= mul*perfo_best_batch
+            perfo = -Inf*mul
+            if eval_type == "mu"
+                if check_lower_mu(list_mu_batch,i)
+                    println("Evluating validation performance")
+                    perfo = calc_profit_from_forecaster(fc, params_dict, feat, lab)
+                end
+            elseif eval_type == "newton"
+                perfo = calc_profit_from_forecaster(fc, params_dict, feat, lab)
+            else
+                exit("$(eval_type) is an unsupported evaluation type for calculating validation performance")
+            end
+            if mul*perfo > mul*perfo_best_batch
                 println("***** New best found: updating validation performance from $(perfo_best_batch) to $(perfo) *****")
                 perfo_best_batch = perfo
                 index_best_batch = i
@@ -873,7 +898,8 @@ function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,a
             println("")
             println("Starting validation calculation batch $(i)")
             println("")
-            index,fc,perfo = get_best_performance_batch(batch_outcome,feat,lab,mul)
+            mu_batch = dict_list_mu[i]
+            index,fc,perfo = get_best_performance_batch(batch_outcome,mu_batch,feat,lab,mul)
             if mul*perfo >= mul*perfo_best
                 println("Updating current best value $(perfo_best) to $(perfo)")
                 perfo_best = perfo
