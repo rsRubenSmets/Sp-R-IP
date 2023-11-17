@@ -228,6 +228,10 @@ function train_spo_new(dict)
             all_lists_mu[i] = list_mu
         end
 
+        aggregator = Batch_aggregator(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
+
+        @show(get_params_dict(aggregator))
+
         list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
 
         return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS
@@ -911,4 +915,25 @@ function aggregate_batched_output(dict_list_fc_lists,feat,lab,params_dict,mode,a
     else
         sys.exit("Unsupported batch aggregation type.")
     end
+end
+
+mutable struct Batch_aggregator
+    dict_list_fc_lists::Dict
+    feat::Array
+    lab::Array
+    params_dict::Dict
+    mode::String
+    agg_type::String
+    eval_type::String
+    dict_list_mu::Dict
+
+    function Batch_aggregator(dict_list_fc_lists::Dict,feat::Array,lab::Array,params_dict::Dict,mode::String,agg_type::String,eval_type::String,dict_list_mu::Dict)
+        new(dict_list_fc_lists,feat,lab,params_dict,mode,agg_type,eval_type,dict_list_mu)
+    end
+
+end
+
+
+function get_params_dict(obj::Batch_aggregator)
+    return obj.params_dict
 end

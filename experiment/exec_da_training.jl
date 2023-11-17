@@ -71,7 +71,7 @@ makedir = false
 #Paremeters determining the dataset
 train_share = 1
 days_train = floor(Int,4/train_share)
-last_ex_test = 30 #59
+last_ex_test = 59 #59
 repitition = 1
 
 factor_size_ESS = 1
