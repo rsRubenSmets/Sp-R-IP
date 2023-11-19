@@ -40,7 +40,6 @@ end
 #Definition of the model
 reforecast_type = "Sp_IP" # "Sp_SG", "Sp_IP", "Sp_IPs" or "Sp_IPd"
 nn_type = "softplus" # "linear" or "softplus"
-warm_start = true
 
 #Definition of hyperparamters
 dict_hps = Dict(
@@ -50,6 +49,7 @@ dict_hps = Dict(
     "perturbation" => [0.1], #Allowed perturbation of re-forecaster compared to initial FC: [0,0.5,0.1,0.02] for "Sp_IP", [0] for "Sp_SG" (0 meaning no constraint)
     "restrict_forecaster_ts" => [true], #whether or not we restrict the re-forecaster to make predictions based only on features of current timestep [true,false] for "Sp_IP", [false] for "Sp_SG"
     "lr" => [0], #Start point of learning rate for subgradient method: "[0] for "Sp_IP", [0.001,0.01,0.1,1] for "Sp_SG"
+    "warm_start" => [true,false] #Whether or not the optimization starts from the initial forecast
     )
 
 #Store code; A folder with this name will be created in ../training/train/outcome/ containing all the information of the training procedure
@@ -64,13 +64,13 @@ store_code = "20231119_bs_SP_IP_softplus_warm" #has to be other name than existi
 ###### DEFINITION OF FIXED SETTINGS #####    
 
 #run location, parallel or seq, make dir for saving results
-machine = "vsc"
-par = true #true for parallel training
-makedir = true
+machine = "local"
+par = false #true for parallel training
+makedir = false
 
 #Paremeters determining the dataset
 train_share = 1
-days_train = floor(Int,64/train_share)
+days_train = floor(Int,4/train_share)
 last_ex_test = 59 #59
 repitition = 1
 
@@ -136,7 +136,6 @@ train_type,train_mode,mu_update = get_type_mode_mu(reforecast_type,nn_type)
 training_dict["train_type"] = train_type
 training_dict["train_mode"] = train_mode
 training_dict["mu_update"] = mu_update
-dict_hps["warm_start"] = [warm_start]
 data_dict["loc_data"] = loc_data
 OP_params_dict["pos_fc"] = findfirst(x -> x == "y_hat", data_dict["feat_cols"])
 OP_params_dict["n_diff_features"] = length(data_dict["feat_cols"])
