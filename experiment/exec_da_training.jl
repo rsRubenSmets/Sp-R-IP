@@ -39,8 +39,8 @@ end
 
 #Definition of the model
 reforecast_type = "Sp_IP" # "Sp_SG", "Sp_IP", "Sp_IPs" or "Sp_IPd"
-nn_type = "linear" # "linear" or "softplus"
-warm_start = false
+nn_type = "softplus" # "linear" or "softplus"
+warm_start = true
 
 #Definition of hyperparamters
 dict_hps = Dict(
@@ -53,7 +53,7 @@ dict_hps = Dict(
     )
 
 #Store code; A folder with this name will be created in ../training/train/outcome/ containing all the information of the training procedure
-store_code = "20231116_test_batch" #has to be other name than existing folder with results; best to include "_SG" or "_IP" in name for processing results
+store_code = "20231119_bs_SP_IP_softplus_warm" #has to be other name than existing folder with results; best to include "_SG" or "_IP" in name for processing results
 
 
 
@@ -64,13 +64,13 @@ store_code = "20231116_test_batch" #has to be other name than existing folder wi
 ###### DEFINITION OF FIXED SETTINGS #####    
 
 #run location, parallel or seq, make dir for saving results
-machine = "local"
-par = false #true for parallel training
-makedir = false
+machine = "vsc"
+par = true #true for parallel training
+makedir = true
 
 #Paremeters determining the dataset
 train_share = 1
-days_train = floor(Int,4/train_share)
+days_train = floor(Int,64/train_share)
 last_ex_test = 59 #59
 repitition = 1
 
@@ -121,11 +121,13 @@ data_dict = Dict(
     "val_split_mode" => "alt_test" #'separate' for the validation set right before test set or 'alernating' for train/val examples alternating or "alt_test" for val_test examples alternating
 )
 
+
+
 loc_data = nothing
 if machine == "local"
     loc_data = "./data/processed_data/SPO_DA/"
 elseif machine == "vsc"
-    loc_data = "../input_data/processed_data/SPO_DA/"
+    loc_data = "../data/processed_data/SPO_DA/"
 end
 
 
@@ -171,7 +173,7 @@ list_arrays = [features_train, labels_train, features_val, labels_val,features_t
 if machine == "local"
     dir = "./training/train_output/$(store_code)/"
 elseif machine == "vsc"
-    dir = "../output/$(store_code)/"
+    dir = "../training/train_output/$(store_code)/"
 end
 
 if makedir

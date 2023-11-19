@@ -85,7 +85,7 @@ function hp_tuning_spo_par(input_dict)
     tic=time()
 
     #Actual 'training' of the neural network via chosen procedure
-    list_fc_lists, dict_evols, time_WS = train_spo_new(input_dict_config)
+    list_fc_lists, dict_evols, time_WS, time_opti, time_val = train_spo_new(input_dict_config)
 
     n_iters = length(list_fc_lists)
     iter_best = 0
@@ -179,8 +179,10 @@ function hp_tuning_spo_par(input_dict)
     outcome_dict["ab_profit_train_PF"] = profit_PF_train
     outcome_dict["ab_profit_val_PF"] = profit_PF_val
     outcome_dict["ab_profit_test_PF"] = profit_PF_test
-    outcome_dict["b_train_time"] = train_time
-    outcome_dict["b_train_time_WS"] = time_WS
+    outcome_dict["b_time_all"] = train_time
+    outcome_dict["b_time_WS"] = time_WS
+    outcome_dict["b_time_opti"] = time_opti
+    outcome_dict["b_time_val"] = time_val
     outcome_dict["b_train_time_without_WS"] = train_time - time_WS
     outcome_dict["b_n_iters"] = n_iters
     outcome_dict["b_iter_best"] = iter_best
@@ -209,7 +211,8 @@ function train_spo_new(dict)
 
         obj_values = nothing
         list_mu = nothing
-        train_time_WS = nothing
+        train_time_WS = 0
+        time_opti = 0
         all_list_fc_lists = Dict()
         all_lists_mu = Dict()
 
@@ -223,18 +226,20 @@ function train_spo_new(dict)
                 labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
             end
 
-            list_fc_lists, obj_values, list_mu, train_time_WS = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
+            list_fc_lists, obj_values, list_mu, time_WS_batch, time_opti_batch = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
+            time_opti += time_opti_batch
+            train_time_WS += time_WS_batch
             all_list_fc_lists[i] = list_fc_lists
             all_lists_mu[i] = list_mu
         end
 
         aggregator = Batch_aggregator(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
-
-        @show(get_params_dict(aggregator))
-
+        tic = time()
         list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
+        time_val = time()-tic
 
-        return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS
+        return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS, time_opti, time_val
+        #TODO: this currently just gives the results of the last batch --> adjust to see aggregated results
         
     
     elseif train_type == "SG"
@@ -386,7 +391,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
 
     end
 
-    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=2,patience=5,max_iters_single_opti=2, lim_mu = -8)
+    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=50,patience=5,max_iters_single_opti=100, lim_mu = -8)
         
         #Retrieve values from overall dict
         params_dict = dict_all["params_dict"]
@@ -524,9 +529,10 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
         elseif train_type == "SL"
             set_optimizer_attribute(prob, "SimplexCallback", collect_points)
         end
-
         println("***** STARTING TRAINING *****")
+        tic=time()
         memory = @allocated optimize!(prob)
+        time_opti = time()-tic
         println("Allocated memory: $(memory)")
 
     elseif training_dict["mu_update"][1:6] == "manual"
@@ -556,11 +562,13 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             end
             return mu/divisor, divisor
         end
+        tic=time()
         list_fc_lists,obj_values,list_mu,list_vars = solve_with_custom_mu(prob, mu_init, update_mu_func_dyn,dict_all)
+        time_opti = time()-tic
 
     end    
     
-    return list_fc_lists, obj_values, list_mu, time_WS
+    return list_fc_lists, obj_values, list_mu, time_WS, time_opti
 end
 
 function spo_plus_erm_cvxpy_new(;params_dict, training_dict, examples, c, optimal_schedules,train_type)

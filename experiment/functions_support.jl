@@ -572,9 +572,9 @@ function get_loc_fc(data_dict,training_dict,machine)
     if machine == "local"
         dirname = "./data/pretrained_fc/"
     elseif machine == "vsc"
-        dirname = "../input_data/pretrained_fc/"
-    end
-
+        dirname = "../data/pretrained_fc/"
+    end  
+    
     scaled_string = "unscaled"
     if data_dict["scale_price"]
         scaled_string = "scaled"
