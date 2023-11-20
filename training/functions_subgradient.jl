@@ -106,7 +106,7 @@ function subgradient_training_flux(params_dict,training_dict,dict_all,training_l
 
     n_examples = length(training_loader)*training_loader.batchsize
 
-
+ 
     λ = params_dict["reg"]
 
     # Training loop

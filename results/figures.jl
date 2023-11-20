@@ -497,3 +497,83 @@ tick_labels = scientific_notation(tick_positions)
 yticks!(tick_positions, tick_labels)
 
 plot!(legend=false)
+
+
+
+
+##### Obtaining Figure 5 #####
+
+function get_outcome_best_bs(loc,list_bs,ws,list_indices=nothing)
+    list_outcomes = []
+    dir = "./training/train_output/"
+    df = CSV.read("$(dir)$(loc)/outcome.csv",DataFrame)
+
+
+
+    for (i,bs) in enumerate(list_bs)
+        if list_indices == nothing
+            df_filtered = df[(df.hp_batch_size.==bs).&(df.hp_ws.==ws),:]
+            df_filtered_best = df_filtered[argmax(df_filtered.a_profit_val),:]
+            push!(list_outcomes,df_filtered_best)
+        else
+            push!(list_outcomes,df[list_indices[i],:])
+        end
+    end
+    return list_outcomes
+end
+
+dir = "20231119_bs_SP_IP_linear"
+
+list_bs = [2,4,8,16,32,64]
+list_indices_warm = [9,17,25,33,41,49]
+list_indices_cold = [i+1 for i in list_indices_warm]
+
+list_df_best_warm = get_outcome_best_bs(dir,list_bs,true)
+list_df_best_cold = get_outcome_best_bs(dir,list_bs,false)
+
+list_df_warm = get_outcome_best_bs(dir,list_bs,true,list_indices_warm)
+list_df_cold = get_outcome_best_bs(dir,list_bs,false,list_indices_cold)
+
+
+
+using Plots
+gr()  # Using GR backend
+
+
+t_WS = [list_df_cold[i].b_time_WS[1] for i in 1:length(list_bs)]
+t_opti = [list_df_cold[i].b_time_opti[1] for i in 1:length(list_bs)]
+t_val = [list_df_cold[i].b_time_val[1] for i in 1:length(list_bs)]
+
+p = [list_df_best_warm[i].a_profit_val[1] for i in 1:length(list_bs)]
+
+
+# Create the first plot (primary y-axis)
+plt_primary = bar(list_bs,
+ [t_WS t_opti t_val],
+  label=["Time warm start" "Time optimizaiton" "Time validation"],
+   xlabel="Batch size (log2)",
+    ylabel="Train time (s)",
+     legend=:outertopright,
+     )
+
+display(plt_primary)
+
+# Create the second plot (secondary y-axis) using twinx
+plt_secondary = twinx(plt_primary)
+plot!(plt_secondary,
+list_bs,
+ p,
+ label="Validation profit",
+ color=:black,
+ linewidth=2,
+ ylabel="Profit (€)",
+ )
+
+# Display the combined plot
+display(plt_primary)
+
+
+
+t_WS
+t_opti
+t_val

@@ -85,7 +85,8 @@ function hp_tuning_spo_par(input_dict)
     tic=time()
 
     #Actual 'training' of the neural network via chosen procedure
-    list_fc_lists, dict_evols, time_WS, time_opti, time_val = train_spo_new(input_dict_config)
+    list_fc_lists, dict_evols, time_WS, time_opti, time_val, max_mem = train_spo_new(input_dict_config)
+
 
     n_iters = length(list_fc_lists)
     iter_best = 0
@@ -183,6 +184,7 @@ function hp_tuning_spo_par(input_dict)
     outcome_dict["b_time_WS"] = time_WS
     outcome_dict["b_time_opti"] = time_opti
     outcome_dict["b_time_val"] = time_val
+    outcome_dict["b_max_mem"] = max_mem
     outcome_dict["b_train_time_without_WS"] = train_time - time_WS
     outcome_dict["b_n_iters"] = n_iters
     outcome_dict["b_iter_best"] = iter_best
@@ -191,6 +193,7 @@ function hp_tuning_spo_par(input_dict)
     outcome_dict["hp_perturbation"] = pert
     outcome_dict["hp_reg"] = reg
     outcome_dict["hp_batch_size"] = batch_size
+    outcome_dict["hp_ws"] = ws
 
 
 
@@ -211,26 +214,32 @@ function train_spo_new(dict)
 
         obj_values = nothing
         list_mu = nothing
+        max_memory = 0
         train_time_WS = 0
         time_opti = 0
         all_list_fc_lists = Dict()
         all_lists_mu = Dict()
 
         for (i, data) in enumerate(training_loader)
-            features, labels_price, labels_schedule = data
-            features, labels_price, labels_schedule = transpose(features), transpose(labels_price),transpose(labels_schedule)
+            if i == 1
+                features, labels_price, labels_schedule = data
+                features, labels_price, labels_schedule = transpose(features), transpose(labels_price),transpose(labels_schedule)
 
 
-            labels_price_ext = zeros(Float64, size(labels_price, 1), size(labels_price, 2) * 3 + 1)
-            for i in 1:size(labels_price, 1)
-                labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
+                labels_price_ext = zeros(Float64, size(labels_price, 1), size(labels_price, 2) * 3 + 1)
+                for i in 1:size(labels_price, 1)
+                    labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
+                end
+
+                list_fc_lists, obj_values, list_mu, time_WS_batch, time_opti_batch, memory = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
+                if memory > max_memory
+                    max_memory = memory
+                end
+                time_opti += time_opti_batch
+                train_time_WS += time_WS_batch
+                all_list_fc_lists[i] = list_fc_lists
+                all_lists_mu[i] = list_mu
             end
-
-            list_fc_lists, obj_values, list_mu, time_WS_batch, time_opti_batch = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
-            time_opti += time_opti_batch
-            train_time_WS += time_WS_batch
-            all_list_fc_lists[i] = list_fc_lists
-            all_lists_mu[i] = list_mu
         end
 
         aggregator = Batch_aggregator(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
@@ -238,7 +247,7 @@ function train_spo_new(dict)
         list_fc_lists = aggregate_batched_output(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
         time_val = time()-tic
 
-        return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS, time_opti, time_val
+        return list_fc_lists,Dict("obj_values" => obj_values, "list_mu" => list_mu),train_time_WS, time_opti, time_val, max_memory
         #TODO: this currently just gives the results of the last batch --> adjust to see aggregated results
         
     
@@ -391,7 +400,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
 
     end
 
-    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=50,patience=5,max_iters_single_opti=100, lim_mu = -8)
+    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=30,patience=5,max_iters_single_opti=25, lim_mu = -8)
         
         #Retrieve values from overall dict
         params_dict = dict_all["params_dict"]
@@ -508,6 +517,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
     list_fc_lists = []
     obj_values = []
     list_mu = []
+    memory = nothing
 
     prob, list_fc, list_variables = spo_plus_erm_cvxpy_new(params_dict=params_dict,training_dict = training_dict, examples=features, c=-prices, optimal_schedules=optimal_schedules, train_type=train_type)
 
@@ -533,11 +543,11 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
         tic=time()
         memory = @allocated optimize!(prob)
         time_opti = time()-tic
-        println("Allocated memory: $(memory)")
+        println("***** \n Allocated memory: $(memory) \n *****")
 
     elseif training_dict["mu_update"][1:6] == "manual"
 
-        mu_init = 10.0
+        mu_init = 0.1
         update_mu_func(curr_mu) = curr_mu / 2
         function update_mu_func_dyn(mu,list_val_profit)
             divisor = 1.5
@@ -563,12 +573,16 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             return mu/divisor, divisor
         end
         tic=time()
+        memory = @allocated begin
         list_fc_lists,obj_values,list_mu,list_vars = solve_with_custom_mu(prob, mu_init, update_mu_func_dyn,dict_all)
+        end
         time_opti = time()-tic
 
     end    
+
+
     
-    return list_fc_lists, obj_values, list_mu, time_WS, time_opti
+    return list_fc_lists, obj_values, list_mu, time_WS, time_opti, memory
 end
 
 function spo_plus_erm_cvxpy_new(;params_dict, training_dict, examples, c, optimal_schedules,train_type)
