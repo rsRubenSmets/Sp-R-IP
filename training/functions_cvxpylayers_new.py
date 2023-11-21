@@ -182,6 +182,7 @@ def hp_tuning_cvxpylayers_2(input_dict):
         'hp_gamma': params_dict['gamma'],
         'hp_lr': training_dict['lr'],
         'hp_bs': training_dict['batch_size'],
+        'hp_ws': training_dict['start_from_fc'],
         'smoothing': training_dict['smoothing'],
         'loss': training_dict['loss_fct_str'],
         'list_units': training_dict['list_units'],

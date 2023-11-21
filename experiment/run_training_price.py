@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     #Data split
     train_share = 1
-    days_train = math.floor(64/train_share) #64
+    days_train = math.floor(5/train_share) #64
     last_ex_test = 59 #59
     repitition = 1
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     training_dict = {
         'device': 'cpu',
         'model_type': "LR",
-        'epochs': 5,
+        'epochs': 2,
         'patience': 25,
         'type_train_labels': 'price_schedule',  # 'price' or 'price_schedule'
         'sched_type': 'net_discharge', #What type of schedule to use as labels: "net_discharge" or "extended" (latter being stack of d,c,soc)
