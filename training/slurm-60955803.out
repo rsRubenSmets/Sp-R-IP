@@ -1,0 +1,1410 @@
+SLURM_JOB_ID: 60955803
+SLURM_JOB_USER: vsc34283
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: julia_job_wice
+SLURM_CLUSTER_NAME: wice
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 2
+SLURM_NODELIST: n28c27n[2,4]
+SLURM_JOB_CPUS_PER_NODE: 72(x2)
+Date: Tue Nov 21 23:23:58 CET 2023
+Walltime: 00-12:00:00
+========================================================================
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+indices_train = [181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244]
+indices_val = [246, 248, 250, 252, 254, 256, 258, 260, 262, 264, 266, 268, 270, 272, 274, 276, 278, 280, 282, 284, 286, 288, 290, 292, 294, 296, 298, 300, 302]
+indices_test = [245, 247, 249, 251, 253, 255, 257, 259, 261, 263, 265, 267, 269, 271, 273, 275, 277, 279, 281, 283, 285, 287, 289, 291, 293, 295, 297, 299, 301]
+      From worker 17:	
+      From worker 17:	******************************************************************************
+      From worker 17:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 17:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 17:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 17:	******************************************************************************
+      From worker 17:	
+      From worker 8:	
+      From worker 8:	******************************************************************************
+      From worker 8:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 8:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 8:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 8:	******************************************************************************
+      From worker 8:	
+      From worker 6:	
+      From worker 6:	******************************************************************************
+      From worker 6:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 6:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 6:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 6:	******************************************************************************
+      From worker 6:	
+      From worker 30:	
+      From worker 30:	******************************************************************************
+      From worker 30:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 30:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 30:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 30:	******************************************************************************
+      From worker 30:	
+      From worker 24:	
+      From worker 24:	******************************************************************************
+      From worker 24:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 24:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 24:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 24:	******************************************************************************
+      From worker 24:	
+      From worker 2:	
+      From worker 2:	******************************************************************************
+      From worker 2:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 2:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 2:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 2:	******************************************************************************
+      From worker 2:	
+      From worker 5:	
+      From worker 5:	******************************************************************************
+      From worker 5:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 5:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 5:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 5:	******************************************************************************
+      From worker 5:	
+      From worker 10:	
+      From worker 10:	******************************************************************************
+      From worker 10:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 10:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 10:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 10:	******************************************************************************
+      From worker 10:	
+      From worker 19:	
+      From worker 19:	******************************************************************************
+      From worker 19:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 19:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 19:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 19:	******************************************************************************
+      From worker 19:	
+      From worker 4:	
+      From worker 4:	******************************************************************************
+      From worker 4:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 4:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 4:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 4:	******************************************************************************
+      From worker 4:	
+      From worker 20:	
+      From worker 20:	******************************************************************************
+      From worker 20:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 20:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 20:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 20:	******************************************************************************
+      From worker 20:	
+      From worker 11:	
+      From worker 11:	******************************************************************************
+      From worker 11:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 11:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 11:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 11:	******************************************************************************
+      From worker 11:	
+      From worker 14:	
+      From worker 14:	******************************************************************************
+      From worker 14:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 14:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 14:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 14:	******************************************************************************
+      From worker 14:	
+      From worker 13:	
+      From worker 13:	******************************************************************************
+      From worker 13:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 13:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 13:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 13:	******************************************************************************
+      From worker 13:	
+      From worker 16:	
+      From worker 16:	******************************************************************************
+      From worker 16:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 16:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 16:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 16:	******************************************************************************
+      From worker 16:	
+      From worker 31:	
+      From worker 31:	******************************************************************************
+      From worker 31:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 31:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 31:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 31:	******************************************************************************
+      From worker 31:	
+      From worker 29:	
+      From worker 29:	******************************************************************************
+      From worker 29:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 29:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 29:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 29:	******************************************************************************
+      From worker 29:	
+      From worker 15:	
+      From worker 15:	******************************************************************************
+      From worker 15:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 15:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 15:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 15:	******************************************************************************
+      From worker 15:	
+      From worker 25:	
+      From worker 25:	******************************************************************************
+      From worker 25:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 25:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 25:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 25:	******************************************************************************
+      From worker 25:	
+      From worker 22:	
+      From worker 22:	******************************************************************************
+      From worker 22:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 22:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 22:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 22:	******************************************************************************
+      From worker 22:	
+      From worker 3:	
+      From worker 3:	******************************************************************************
+      From worker 3:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 3:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 3:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 3:	******************************************************************************
+      From worker 3:	
+      From worker 33:	
+      From worker 33:	******************************************************************************
+      From worker 33:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 33:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 33:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 33:	******************************************************************************
+      From worker 33:	
+      From worker 21:	
+      From worker 21:	******************************************************************************
+      From worker 21:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 21:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 21:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 21:	******************************************************************************
+      From worker 21:	
+      From worker 32:	
+      From worker 32:	******************************************************************************
+      From worker 32:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 32:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 32:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 32:	******************************************************************************
+      From worker 32:	
+      From worker 12:	
+      From worker 12:	******************************************************************************
+      From worker 12:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 12:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 12:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 12:	******************************************************************************
+      From worker 12:	
+      From worker 18:	
+      From worker 18:	******************************************************************************
+      From worker 18:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 18:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 18:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 18:	******************************************************************************
+      From worker 18:	
+      From worker 27:	
+      From worker 27:	******************************************************************************
+      From worker 27:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 27:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 27:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 27:	******************************************************************************
+      From worker 27:	
+      From worker 7:	
+      From worker 7:	******************************************************************************
+      From worker 7:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 7:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 7:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 7:	******************************************************************************
+      From worker 7:	
+      From worker 26:	
+      From worker 26:	******************************************************************************
+      From worker 26:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 26:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 26:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 26:	******************************************************************************
+      From worker 26:	
+      From worker 28:	
+      From worker 28:	******************************************************************************
+      From worker 28:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 28:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 28:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 28:	******************************************************************************
+      From worker 28:	
+      From worker 9:	
+      From worker 9:	******************************************************************************
+      From worker 9:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 9:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 9:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 9:	******************************************************************************
+      From worker 9:	
+      From worker 23:	
+      From worker 23:	******************************************************************************
+      From worker 23:	This program contains Ipopt, a library for large-scale nonlinear optimization.
+      From worker 23:	 Ipopt is released as open source code under the Eclipse Public License (EPL).
+      From worker 23:	         For more information visit https://github.com/coin-or/Ipopt
+      From worker 23:	******************************************************************************
+      From worker 23:	
+      From worker 17:	profit_PF_train = 1.754977234431795
+      From worker 6:	profit_PF_train = 1.754977234431795
+      From worker 8:	profit_PF_train = 1.754977234431795
+      From worker 30:	profit_PF_train = 1.754977234431795
+      From worker 24:	profit_PF_train = 1.754977234431795
+      From worker 2:	profit_PF_train = 1.754977234431795
+      From worker 5:	profit_PF_train = 1.754977234431795
+      From worker 19:	profit_PF_train = 1.754977234431795
+      From worker 10:	profit_PF_train = 1.754977234431795
+      From worker 20:	profit_PF_train = 1.754977234431795
+      From worker 4:	profit_PF_train = 1.754977234431795
+      From worker 11:	profit_PF_train = 1.754977234431795
+      From worker 14:	profit_PF_train = 1.754977234431795
+      From worker 16:	profit_PF_train = 1.754977234431795
+      From worker 13:	profit_PF_train = 1.754977234431795
+      From worker 29:	profit_PF_train = 1.754977234431795
+      From worker 25:	profit_PF_train = 1.754977234431795
+      From worker 31:	profit_PF_train = 1.754977234431795
+      From worker 3:	profit_PF_train = 1.754977234431795
+      From worker 22:	profit_PF_train = 1.754977234431795
+      From worker 33:	profit_PF_train = 1.754977234431795
+      From worker 21:	profit_PF_train = 1.754977234431795
+      From worker 18:	profit_PF_train = 1.754977234431795
+      From worker 7:	profit_PF_train = 1.754977234431795
+      From worker 27:	profit_PF_train = 1.754977234431795
+      From worker 32:	profit_PF_train = 1.754977234431795
+      From worker 26:	profit_PF_train = 1.754977234431795
+      From worker 15:	profit_PF_train = 1.754977234431795
+      From worker 12:	profit_PF_train = 1.754977234431795
+      From worker 28:	profit_PF_train = 1.754977234431795
+      From worker 9:	profit_PF_train = 1.754977234431795
+      From worker 23:	profit_PF_train = 1.754977234431795
+      From worker 17:	profit_PF_val = 0.4891993484695554
+      From worker 6:	profit_PF_val = 0.4891993484695554
+      From worker 8:	profit_PF_val = 0.4891993484695554
+      From worker 30:	profit_PF_val = 0.4891993484695554
+      From worker 24:	profit_PF_val = 0.4891993484695554
+      From worker 5:	profit_PF_val = 0.4891993484695554
+      From worker 2:	profit_PF_val = 0.4891993484695554
+      From worker 19:	profit_PF_val = 0.4891993484695554
+      From worker 10:	profit_PF_val = 0.4891993484695554
+      From worker 20:	profit_PF_val = 0.4891993484695554
+      From worker 11:	profit_PF_val = 0.4891993484695554
+      From worker 4:	profit_PF_val = 0.4891993484695554
+      From worker 16:	profit_PF_val = 0.4891993484695554
+      From worker 14:	profit_PF_val = 0.4891993484695554
+      From worker 13:	profit_PF_val = 0.4891993484695554
+      From worker 29:	profit_PF_val = 0.4891993484695554
+      From worker 25:	profit_PF_val = 0.4891993484695554
+      From worker 3:	profit_PF_val = 0.4891993484695554
+      From worker 31:	profit_PF_val = 0.4891993484695554
+      From worker 22:	profit_PF_val = 0.4891993484695554
+      From worker 33:	profit_PF_val = 0.4891993484695554
+      From worker 21:	profit_PF_val = 0.4891993484695554
+      From worker 18:	profit_PF_val = 0.4891993484695554
+      From worker 7:	profit_PF_val = 0.4891993484695554
+      From worker 27:	profit_PF_val = 0.4891993484695554
+      From worker 32:	profit_PF_val = 0.4891993484695554
+      From worker 26:	profit_PF_val = 0.4891993484695554
+      From worker 15:	profit_PF_val = 0.4891993484695554
+      From worker 12:	profit_PF_val = 0.4891993484695554
+      From worker 28:	profit_PF_val = 0.4891993484695554
+      From worker 23:	profit_PF_val = 0.4891993484695554
+      From worker 9:	profit_PF_val = 0.4891993484695554
+      From worker 17:	profit_PF_test = 0.5153637683698817
+      From worker 8:	profit_PF_test = 0.5153637683698817
+      From worker 6:	profit_PF_test = 0.5153637683698817
+      From worker 30:	profit_PF_test = 0.5153637683698817
+      From worker 24:	profit_PF_test = 0.5153637683698817
+      From worker 5:	profit_PF_test = 0.5153637683698817
+      From worker 2:	profit_PF_test = 0.5153637683698817
+      From worker 19:	profit_PF_test = 0.5153637683698817
+      From worker 10:	profit_PF_test = 0.5153637683698817
+      From worker 20:	profit_PF_test = 0.5153637683698817
+      From worker 11:	profit_PF_test = 0.5153637683698817
+      From worker 4:	profit_PF_test = 0.5153637683698817
+      From worker 16:	profit_PF_test = 0.5153637683698817
+      From worker 14:	profit_PF_test = 0.5153637683698817
+      From worker 29:	profit_PF_test = 0.5153637683698817
+      From worker 13:	profit_PF_test = 0.5153637683698817
+      From worker 3:	profit_PF_test = 0.5153637683698817
+      From worker 33:	profit_PF_test = 0.5153637683698817
+      From worker 22:	profit_PF_test = 0.5153637683698817
+      From worker 31:	profit_PF_test = 0.5153637683698817
+      From worker 18:	profit_PF_test = 0.5153637683698817
+      From worker 21:	profit_PF_test = 0.5153637683698817
+      From worker 7:	profit_PF_test = 0.5153637683698817
+      From worker 27:	profit_PF_test = 0.5153637683698817
+      From worker 25:	profit_PF_test = 0.5153637683698817
+      From worker 26:	profit_PF_test = 0.5153637683698817
+      From worker 32:	profit_PF_test = 0.5153637683698817
+      From worker 15:	profit_PF_test = 0.5153637683698817
+      From worker 12:	profit_PF_test = 0.5153637683698817
+      From worker 28:	profit_PF_test = 0.5153637683698817
+      From worker 23:	profit_PF_test = 0.5153637683698817
+      From worker 9:	profit_PF_test = 0.5153637683698817
+      From worker 5:	curr_mu = 1
+      From worker 19:	curr_mu = 1
+      From worker 17:	curr_mu = 1
+      From worker 3:	curr_mu = 1
+      From worker 21:	curr_mu = 1
+      From worker 11:	curr_mu = 1
+      From worker 13:	curr_mu = 1
+      From worker 29:	curr_mu = 1
+      From worker 33:	curr_mu = 1
+      From worker 31:	curr_mu = 1
+      From worker 25:	curr_mu = 1
+      From worker 7:	curr_mu = 1
+      From worker 27:	curr_mu = 1
+      From worker 15:	curr_mu = 1
+      From worker 23:	curr_mu = 1
+      From worker 9:	curr_mu = 1
+      From worker 2:	optimizing feasibility problem
+      From worker 20:	optimizing feasibility problem
+      From worker 4:	optimizing feasibility problem
+      From worker 8:	optimizing feasibility problem
+      From worker 18:	optimizing feasibility problem
+      From worker 6:	optimizing feasibility problem
+      From worker 30:	optimizing feasibility problem
+      From worker 24:	optimizing feasibility problem
+      From worker 10:	optimizing feasibility problem
+      From worker 16:	optimizing feasibility problem
+      From worker 14:	optimizing feasibility problem
+      From worker 22:	optimizing feasibility problem
+      From worker 32:	optimizing feasibility problem
+      From worker 26:	optimizing feasibility problem
+      From worker 12:	optimizing feasibility problem
+      From worker 28:	optimizing feasibility problem
+      From worker 4:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 4:	
+      From worker 4:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 4:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 4:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 4:	
+      From worker 4:	Total number of variables............................:    10144
+      From worker 4:	                     variables with only lower bounds:     2784
+      From worker 4:	                variables with lower and upper bounds:        0
+      From worker 4:	                     variables with only upper bounds:        0
+      From worker 4:	Total number of equality constraints.................:     8528
+      From worker 4:	Total number of inequality constraints...............:        0
+      From worker 4:	        inequality constraints with only lower bounds:        0
+      From worker 4:	   inequality constraints with lower and upper bounds:        0
+      From worker 4:	        inequality constraints with only upper bounds:        0
+      From worker 4:	
+      From worker 4:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 4:	   0  0.0000000e+00 5.63e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 4:	   1  0.0000000e+00 5.59e+00 1.77e+00   0.0 3.27e+00    -  4.33e-03 7.65e-03f  1
+      From worker 4:	   2  0.0000000e+00 2.63e+00 1.80e+01  -0.4 5.53e+00    -  1.20e-02 5.30e-01f  1
+      From worker 16:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 16:	
+      From worker 16:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 16:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 16:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 16:	
+      From worker 16:	Total number of variables............................:    10144
+      From worker 16:	                     variables with only lower bounds:     2784
+      From worker 16:	                variables with lower and upper bounds:        0
+      From worker 16:	                     variables with only upper bounds:        0
+      From worker 16:	Total number of equality constraints.................:     8528
+      From worker 16:	Total number of inequality constraints...............:        0
+      From worker 16:	        inequality constraints with only lower bounds:        0
+      From worker 16:	   inequality constraints with lower and upper bounds:        0
+      From worker 16:	        inequality constraints with only upper bounds:        0
+      From worker 16:	
+      From worker 16:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 16:	   0  0.0000000e+00 4.21e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 2:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 2:	
+      From worker 2:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 2:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 2:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 2:	
+      From worker 2:	Total number of variables............................:    10144
+      From worker 2:	                     variables with only lower bounds:     2784
+      From worker 2:	                variables with lower and upper bounds:        0
+      From worker 2:	                     variables with only upper bounds:        0
+      From worker 2:	Total number of equality constraints.................:     8528
+      From worker 2:	Total number of inequality constraints...............:        0
+      From worker 2:	        inequality constraints with only lower bounds:        0
+      From worker 2:	   inequality constraints with lower and upper bounds:        0
+      From worker 2:	        inequality constraints with only upper bounds:        0
+      From worker 2:	
+      From worker 2:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 2:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 16:	   1  0.0000000e+00 4.15e+00 2.35e+00   0.0 2.72e+00    -  5.73e-03 1.34e-02f  1
+      From worker 4:	   3  0.0000000e+00 1.78e-15 1.70e-01  -0.5 2.61e+00    -  8.28e-01 1.00e+00f  1
+      From worker 2:	   1  0.0000000e+00 4.52e+00 2.18e+00   0.0 2.82e+00    -  5.40e-03 1.17e-02f  1
+      From worker 16:	   2  0.0000000e+00 1.18e+00 1.77e+01  -0.5 4.14e+00    -  2.19e-02 7.15e-01f  1
+      From worker 2:	   2  0.0000000e+00 8.67e-01 2.16e+01  -0.5 4.45e+00    -  1.84e-02 8.08e-01f  1
+      From worker 16:	   3  0.0000000e+00 1.78e-15 6.10e-01  -0.5 1.10e+00    -  1.00e+00 1.00e+00f  1
+      From worker 4:	   4  0.0000000e+00 8.88e-16 1.70e-03  -7.0 1.03e-06    -  9.90e-01 1.00e+00h  1
+      From worker 20:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 20:	
+      From worker 20:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 20:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 20:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 20:	
+      From worker 20:	Total number of variables............................:    10144
+      From worker 20:	                     variables with only lower bounds:     2784
+      From worker 20:	                variables with lower and upper bounds:        0
+      From worker 20:	                     variables with only upper bounds:        0
+      From worker 20:	Total number of equality constraints.................:     8528
+      From worker 20:	Total number of inequality constraints...............:        0
+      From worker 20:	        inequality constraints with only lower bounds:        0
+      From worker 20:	   inequality constraints with lower and upper bounds:        0
+      From worker 20:	        inequality constraints with only upper bounds:        0
+      From worker 20:	
+      From worker 20:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 20:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 2:	   3  0.0000000e+00 8.88e-16 5.35e-02  -0.9 8.56e-01    -  9.45e-01 1.00e+00f  1
+      From worker 16:	   4  0.0000000e+00 1.78e-15 6.10e-03  -6.9 1.94e-07    -  9.90e-01 1.00e+00h  1
+      From worker 24:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 24:	
+      From worker 24:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 24:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 24:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 24:	
+      From worker 24:	Total number of variables............................:    10144
+      From worker 24:	                     variables with only lower bounds:     2784
+      From worker 24:	                variables with lower and upper bounds:        0
+      From worker 24:	                     variables with only upper bounds:        0
+      From worker 24:	Total number of equality constraints.................:     8528
+      From worker 24:	Total number of inequality constraints...............:        0
+      From worker 24:	        inequality constraints with only lower bounds:        0
+      From worker 24:	   inequality constraints with lower and upper bounds:        0
+      From worker 24:	        inequality constraints with only upper bounds:        0
+      From worker 24:	
+      From worker 24:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 24:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 20:	   1  0.0000000e+00 4.52e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 4:	   5  0.0000000e+00 8.88e-16 4.72e-04  -3.1 8.22e-01    -  7.22e-01 1.00e+00f  1
+      From worker 30:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 30:	
+      From worker 30:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 30:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 30:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 30:	
+      From worker 30:	Total number of variables............................:    10144
+      From worker 30:	                     variables with only lower bounds:     2784
+      From worker 30:	                variables with lower and upper bounds:        0
+      From worker 30:	                     variables with only upper bounds:        0
+      From worker 30:	Total number of equality constraints.................:     8528
+      From worker 30:	Total number of inequality constraints...............:        0
+      From worker 30:	        inequality constraints with only lower bounds:        0
+      From worker 30:	   inequality constraints with lower and upper bounds:        0
+      From worker 30:	        inequality constraints with only upper bounds:        0
+      From worker 30:	
+      From worker 30:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 30:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 24:	   1  0.0000000e+00 4.52e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 30:	   1  0.0000000e+00 4.52e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 2:	   4  0.0000000e+00 8.88e-16 5.35e-04  -7.6 8.70e-07    -  9.90e-01 1.00e+00h  1
+      From worker 8:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 8:	
+      From worker 8:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 8:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 8:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 8:	
+      From worker 8:	Total number of variables............................:    10144
+      From worker 8:	                     variables with only lower bounds:     2784
+      From worker 8:	                variables with lower and upper bounds:        0
+      From worker 8:	                     variables with only upper bounds:        0
+      From worker 8:	Total number of equality constraints.................:     8528
+      From worker 8:	Total number of inequality constraints...............:        0
+      From worker 8:	        inequality constraints with only lower bounds:        0
+      From worker 8:	   inequality constraints with lower and upper bounds:        0
+      From worker 8:	        inequality constraints with only upper bounds:        0
+      From worker 8:	
+      From worker 8:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 8:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 20:	   2  0.0000000e+00 1.21e+00 2.13e+01  -0.5 4.45e+00    -  1.81e-02 7.32e-01f  1
+      From worker 16:	   5  0.0000000e+00 1.33e-15 1.45e-03  -3.0 1.28e+00    -  7.63e-01 1.00e+00f  1
+      From worker 24:	   2  0.0000000e+00 1.48e+00 2.06e+01  -0.5 4.45e+00    -  1.82e-02 6.73e-01f  1
+      From worker 8:	   1  0.0000000e+00 4.52e+00 2.18e+00   0.0 2.82e+00    -  5.40e-03 1.17e-02f  1
+      From worker 6:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 6:	
+      From worker 6:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 6:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 6:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 6:	
+      From worker 6:	Total number of variables............................:    10144
+      From worker 6:	                     variables with only lower bounds:     2784
+      From worker 6:	                variables with lower and upper bounds:        0
+      From worker 6:	                     variables with only upper bounds:        0
+      From worker 6:	Total number of equality constraints.................:     8528
+      From worker 6:	Total number of inequality constraints...............:        0
+      From worker 6:	        inequality constraints with only lower bounds:        0
+      From worker 6:	   inequality constraints with lower and upper bounds:        0
+      From worker 6:	        inequality constraints with only upper bounds:        0
+      From worker 6:	
+      From worker 6:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 6:	   0  0.0000000e+00 5.63e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 30:	   2  0.0000000e+00 1.97e+00 1.65e+01  -0.5 4.44e+00    -  1.75e-02 5.64e-01f  1
+      From worker 2:	   5  0.0000000e+00 8.88e-16 1.72e-03  -3.7 1.72e-03    -  1.00e+00 1.00e+00f  1
+      From worker 8:	   2  0.0000000e+00 2.18e+00 1.46e+01  -0.5 4.41e+00    -  1.90e-02 5.18e-01f  1
+      From worker 18:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 18:	
+      From worker 18:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 18:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 18:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 18:	
+      From worker 18:	Total number of variables............................:    10144
+      From worker 18:	                     variables with only lower bounds:     2784
+      From worker 18:	                variables with lower and upper bounds:        0
+      From worker 18:	                     variables with only upper bounds:        0
+      From worker 18:	Total number of equality constraints.................:     8528
+      From worker 18:	Total number of inequality constraints...............:        0
+      From worker 18:	        inequality constraints with only lower bounds:        0
+      From worker 18:	   inequality constraints with lower and upper bounds:        0
+      From worker 18:	        inequality constraints with only upper bounds:        0
+      From worker 18:	
+      From worker 18:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 18:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 6:	   1  0.0000000e+00 5.59e+00 1.77e+00   0.0 3.27e+00    -  4.33e-03 7.65e-03f  1
+      From worker 4:	   6  0.0000000e+00 1.78e-15 1.89e-05  -4.6 8.78e-02    -  9.60e-01 1.00e+00f  1
+      From worker 20:	   3  0.0000000e+00 1.33e-15 8.03e-02  -0.8 1.20e+00    -  9.18e-01 1.00e+00f  1
+      From worker 16:	   6  0.0000000e+00 8.88e-16 7.59e-05  -4.4 9.98e-02    -  9.48e-01 1.00e+00f  1
+      From worker 6:	   2  0.0000000e+00 1.25e+00 3.64e+01  -0.4 5.50e+00    -  1.27e-02 7.77e-01f  1
+      From worker 24:	   3  0.0000000e+00 1.33e-15 9.81e-02  -0.7 1.46e+00    -  9.00e-01 1.00e+00f  1
+      From worker 18:	   1  0.0000000e+00 4.52e+00 2.18e+00   0.0 2.82e+00    -  5.40e-03 1.17e-02f  1
+      From worker 2:	   6  0.0000000e+00 8.88e-16 7.90e-06  -5.5 1.43e-02    -  9.95e-01 1.00e+00f  1
+      From worker 30:	   3  0.0000000e+00 1.78e-15 1.54e-01  -0.6 1.95e+00    -  8.43e-01 1.00e+00f  1
+      From worker 8:	   3  0.0000000e+00 1.33e-15 1.60e-01  -0.5 2.13e+00    -  8.45e-01 1.00e+00f  1
+      From worker 4:	   7  0.0000000e+00 1.78e-15 1.31e-07  -6.9 1.31e-07    -  1.00e+00 1.00e+00h  1
+      From worker 6:	   3  0.0000000e+00 8.88e-16 5.77e-01  -0.6 1.08e+00    -  9.99e-01 1.00e+00f  1
+      From worker 18:	   2  0.0000000e+00 1.15e+00 1.98e+01  -0.5 4.45e+00    -  1.85e-02 7.45e-01f  1
+      From worker 16:	   7  0.0000000e+00 8.88e-16 2.48e-07  -6.6 8.88e-03    -  9.97e-01 1.00e+00f  1
+      From worker 14:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 14:	
+      From worker 14:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 14:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 14:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 14:	
+      From worker 14:	Total number of variables............................:    10144
+      From worker 14:	                     variables with only lower bounds:     2784
+      From worker 14:	                variables with lower and upper bounds:        0
+      From worker 14:	                     variables with only upper bounds:        0
+      From worker 14:	Total number of equality constraints.................:     8528
+      From worker 14:	Total number of inequality constraints...............:        0
+      From worker 14:	        inequality constraints with only lower bounds:        0
+      From worker 14:	   inequality constraints with lower and upper bounds:        0
+      From worker 14:	        inequality constraints with only upper bounds:        0
+      From worker 14:	
+      From worker 14:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 14:	   0  0.0000000e+00 4.52e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 2:	   7  0.0000000e+00 8.88e-16 2.00e-08  -8.3 3.82e-03    -  9.97e-01 1.00e+00h  1
+      From worker 24:	   4  0.0000000e+00 1.33e-15 9.81e-04  -7.3 8.70e-07    -  9.90e-01 1.00e+00h  1
+      From worker 30:	   4  0.0000000e+00 8.88e-16 1.54e-03  -7.1 8.41e-07    -  9.90e-01 1.00e+00h  1
+      From worker 8:	   4  0.0000000e+00 1.33e-15 1.60e-03  -7.0 1.11e-06    -  9.90e-01 1.00e+00h  1
+      From worker 20:	   4  0.0000000e+00 8.88e-16 8.03e-04  -7.4 8.85e-07    -  9.90e-01 1.00e+00h  1
+      From worker 14:	   1  0.0000000e+00 4.47e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 4:	   8  0.0000000e+00 1.78e-15 1.04e-09  -9.0 1.04e-09    -  1.00e+00 1.00e+00h  1
+      From worker 4:	
+      From worker 4:	Number of Iterations....: 8
+      From worker 4:	
+      From worker 4:	                                   (scaled)                 (unscaled)
+      From worker 4:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 4:	Dual infeasibility......:   1.0365610346905147e-09    1.0365610346905147e-09
+      From worker 4:	Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
+      From worker 4:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 4:	Complementarity.........:   9.0909089194532050e-10    9.0909089194532050e-10
+      From worker 4:	Overall NLP error.......:   1.0365610346905147e-09    1.0365610346905147e-09
+      From worker 4:	
+      From worker 4:	
+      From worker 4:	Number of objective function evaluations             = 9
+      From worker 4:	Number of objective gradient evaluations             = 9
+      From worker 4:	Number of equality constraint evaluations            = 9
+      From worker 4:	Number of inequality constraint evaluations          = 0
+      From worker 4:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 4:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 4:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 4:	Total seconds in IPOPT                               = 2.533
+      From worker 4:	
+      From worker 4:	EXIT: Optimal Solution Found.
+      From worker 6:	   4  0.0000000e+00 8.88e-16 5.77e-03  -7.0 1.55e-07    -  9.90e-01 1.00e+00h  1
+      From worker 18:	   3  0.0000000e+00 1.33e-15 7.04e-02  -0.8 1.14e+00    -  9.28e-01 1.00e+00f  1
+      From worker 4:	curr_mu = 1
+      From worker 6:	   5  0.0000000e+00 8.88e-16 3.39e-03  -3.1 3.39e-03    -  1.00e+00 1.00e+00f  1
+      From worker 30:	   5  0.0000000e+00 8.88e-16 4.43e-04  -3.2 6.73e-01    -  7.12e-01 1.00e+00f  1
+      From worker 24:	   5  0.0000000e+00 8.88e-16 3.03e-04  -3.4 6.96e-01    -  6.91e-01 1.00e+00f  1
+      From worker 8:	   5  0.0000000e+00 1.33e-15 4.74e-04  -3.1 8.90e-01    -  7.03e-01 1.00e+00f  1
+      From worker 14:	   2  0.0000000e+00 1.16e+00 2.16e+01  -0.5 4.45e+00    -  1.82e-02 7.42e-01f  1
+      From worker 20:	   5  0.0000000e+00 8.88e-16 1.96e-03  -3.5 1.96e-03    -  1.00e+00 1.00e+00f  1
+      From worker 6:	   6  0.0000000e+00 8.88e-16 9.73e-05  -4.6 9.73e-05    -  1.00e+00 1.00e+00f  1
+      From worker 30:	   6  0.0000000e+00 8.88e-16 2.29e-05  -4.8 2.29e-05    -  1.00e+00 1.00e+00f  1
+      From worker 26:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 26:	
+      From worker 26:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 26:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 26:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 26:	
+      From worker 26:	Total number of variables............................:    10144
+      From worker 26:	                     variables with only lower bounds:     2784
+      From worker 26:	                variables with lower and upper bounds:        0
+      From worker 26:	                     variables with only upper bounds:        0
+      From worker 26:	Total number of equality constraints.................:     8528
+      From worker 26:	Total number of inequality constraints...............:        0
+      From worker 26:	        inequality constraints with only lower bounds:        0
+      From worker 26:	   inequality constraints with lower and upper bounds:        0
+      From worker 26:	        inequality constraints with only upper bounds:        0
+      From worker 26:	
+      From worker 26:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 26:	   0  0.0000000e+00 5.63e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 32:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 32:	
+      From worker 32:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 32:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 32:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 32:	
+      From worker 32:	Total number of variables............................:    10144
+      From worker 32:	                     variables with only lower bounds:     2784
+      From worker 32:	                variables with lower and upper bounds:        0
+      From worker 32:	                     variables with only upper bounds:        0
+      From worker 32:	Total number of equality constraints.................:     8528
+      From worker 32:	Total number of inequality constraints...............:        0
+      From worker 32:	        inequality constraints with only lower bounds:        0
+      From worker 32:	   inequality constraints with lower and upper bounds:        0
+      From worker 32:	        inequality constraints with only upper bounds:        0
+      From worker 32:	
+      From worker 32:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 32:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 10:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 10:	
+      From worker 10:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 10:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 10:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 10:	
+      From worker 10:	Total number of variables............................:    10144
+      From worker 10:	                     variables with only lower bounds:     2784
+      From worker 10:	                variables with lower and upper bounds:        0
+      From worker 10:	                     variables with only upper bounds:        0
+      From worker 10:	Total number of equality constraints.................:     8528
+      From worker 10:	Total number of inequality constraints...............:        0
+      From worker 10:	        inequality constraints with only lower bounds:        0
+      From worker 10:	   inequality constraints with lower and upper bounds:        0
+      From worker 10:	        inequality constraints with only upper bounds:        0
+      From worker 10:	
+      From worker 10:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 10:	   0  0.0000000e+00 4.52e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 22:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 22:	
+      From worker 22:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 22:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 22:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 22:	
+      From worker 22:	Total number of variables............................:    10144
+      From worker 22:	                     variables with only lower bounds:     2784
+      From worker 22:	                variables with lower and upper bounds:        0
+      From worker 22:	                     variables with only upper bounds:        0
+      From worker 22:	Total number of equality constraints.................:     8528
+      From worker 22:	Total number of inequality constraints...............:        0
+      From worker 22:	        inequality constraints with only lower bounds:        0
+      From worker 22:	   inequality constraints with lower and upper bounds:        0
+      From worker 22:	        inequality constraints with only upper bounds:        0
+      From worker 22:	
+      From worker 22:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 22:	   0  0.0000000e+00 4.21e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 24:	   6  0.0000000e+00 8.88e-16 4.35e-06  -5.1 3.10e-02    -  9.86e-01 1.00e+00f  1
+      From worker 6:	   7  0.0000000e+00 8.88e-16 5.07e-07  -6.9 5.07e-07    -  1.00e+00 1.00e+00h  1
+      From worker 8:	   6  0.0000000e+00 1.33e-15 1.88e-05  -4.7 8.77e-02    -  9.60e-01 1.00e+00f  1
+      From worker 30:	   7  0.0000000e+00 8.88e-16 2.61e-08  -7.3 4.52e-03    -  9.99e-01 1.00e+00h  1
+      From worker 28:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 28:	
+      From worker 28:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 28:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 28:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 28:	
+      From worker 28:	Total number of variables............................:    10144
+      From worker 28:	                     variables with only lower bounds:     2784
+      From worker 28:	                variables with lower and upper bounds:        0
+      From worker 28:	                     variables with only upper bounds:        0
+      From worker 28:	Total number of equality constraints.................:     8528
+      From worker 28:	Total number of inequality constraints...............:        0
+      From worker 28:	        inequality constraints with only lower bounds:        0
+      From worker 28:	   inequality constraints with lower and upper bounds:        0
+      From worker 28:	        inequality constraints with only upper bounds:        0
+      From worker 28:	
+      From worker 28:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 28:	   0  0.0000000e+00 4.52e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 20:	   6  0.0000000e+00 8.88e-16 3.40e-05  -5.2 3.40e-05    -  1.00e+00 1.00e+00f  1
+      From worker 10:	   1  0.0000000e+00 4.47e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 22:	   1  0.0000000e+00 4.15e+00 2.35e+00   0.0 2.72e+00    -  5.73e-03 1.34e-02f  1
+      From worker 6:	   8  0.0000000e+00 8.88e-16 3.55e-09  -9.0 3.55e-09    -  1.00e+00 1.00e+00h  1
+      From worker 6:	
+      From worker 6:	Number of Iterations....: 8
+      From worker 6:	
+      From worker 6:	                                   (scaled)                 (unscaled)
+      From worker 6:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 6:	Dual infeasibility......:   3.5540551145126532e-09    3.5540551145126532e-09
+      From worker 6:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 6:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 6:	Complementarity.........:   9.0909085509386835e-10    9.0909085509386835e-10
+      From worker 6:	Overall NLP error.......:   3.5540551145126532e-09    3.5540551145126532e-09
+      From worker 6:	
+      From worker 6:	
+      From worker 6:	Number of objective function evaluations             = 9
+      From worker 6:	Number of objective gradient evaluations             = 9
+      From worker 6:	Number of equality constraint evaluations            = 9
+      From worker 6:	Number of inequality constraint evaluations          = 0
+      From worker 6:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 6:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 6:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 6:	Total seconds in IPOPT                               = 2.147
+      From worker 6:	
+      From worker 6:	EXIT: Optimal Solution Found.
+      From worker 18:	   4  0.0000000e+00 1.33e-15 7.04e-04  -7.4 9.22e-07    -  9.90e-01 1.00e+00h  1
+      From worker 32:	   1  0.0000000e+00 4.52e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 16:	   8  0.0000000e+00 8.88e-16 1.52e-09  -9.0 1.19e-02    -  9.94e-01 1.00e+00h  1
+      From worker 16:	
+      From worker 16:	Number of Iterations....: 8
+      From worker 16:	
+      From worker 16:	                                   (scaled)                 (unscaled)
+      From worker 16:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 16:	Dual infeasibility......:   1.5219914434318773e-09    1.5219914434318773e-09
+      From worker 16:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 16:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 16:	Complementarity.........:   4.4071732219818227e-09    4.4071732219818227e-09
+      From worker 16:	Overall NLP error.......:   4.4071732219818227e-09    4.4071732219818227e-09
+      From worker 16:	
+      From worker 16:	
+      From worker 16:	Number of objective function evaluations             = 9
+      From worker 16:	Number of objective gradient evaluations             = 9
+      From worker 16:	Number of equality constraint evaluations            = 9
+      From worker 16:	Number of inequality constraint evaluations          = 0
+      From worker 16:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 16:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 16:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 16:	Total seconds in IPOPT                               = 2.885
+      From worker 16:	
+      From worker 16:	EXIT: Optimal Solution Found.
+      From worker 2:	   8  0.0000000e+00 8.88e-16 3.33e-09  -9.0 1.92e-01    -  8.12e-01 1.00e+00f  1
+      From worker 2:	
+      From worker 2:	Number of Iterations....: 8
+      From worker 2:	
+      From worker 2:	                                   (scaled)                 (unscaled)
+      From worker 2:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 2:	Dual infeasibility......:   3.3304527803791078e-09    3.3304527803791078e-09
+      From worker 2:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 2:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 2:	Complementarity.........:   3.7602155361462669e-09    3.7602155361462669e-09
+      From worker 2:	Overall NLP error.......:   3.7602155361462669e-09    3.7602155361462669e-09
+      From worker 2:	
+      From worker 2:	
+      From worker 2:	Number of objective function evaluations             = 9
+      From worker 2:	Number of objective gradient evaluations             = 9
+      From worker 2:	Number of equality constraint evaluations            = 9
+      From worker 2:	Number of inequality constraint evaluations          = 0
+      From worker 2:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 2:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 2:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 2:	Total seconds in IPOPT                               = 2.815
+      From worker 2:	
+      From worker 2:	EXIT: Optimal Solution Found.
+      From worker 6:	curr_mu = 1
+      From worker 24:	   7  0.0000000e+00 8.88e-16 1.29e-08  -7.7 5.18e-03    -  9.97e-01 1.00e+00h  1
+      From worker 14:	   3  0.0000000e+00 1.33e-15 7.61e-02  -0.8 1.15e+00    -  9.22e-01 1.00e+00f  1
+      From worker 28:	   1  0.0000000e+00 4.47e+00 2.17e+00   0.0 2.83e+00    -  5.37e-03 1.16e-02f  1
+      From worker 8:	   7  0.0000000e+00 8.88e-16 4.58e-08  -7.0 5.60e-03    -  9.98e-01 1.00e+00f  1
+      From worker 2:	curr_mu = 1
+      From worker 16:	curr_mu = 1
+      From worker 26:	   1  0.0000000e+00 5.59e+00 1.77e+00   0.0 3.27e+00    -  4.33e-03 7.65e-03f  1
+      From worker 22:	   2  0.0000000e+00 1.84e+00 1.33e+01  -0.5 4.17e+00    -  2.07e-02 5.57e-01f  1
+      From worker 10:	   2  0.0000000e+00 1.51e+00 1.91e+01  -0.5 4.45e+00    -  1.85e-02 6.63e-01f  1
+      From worker 32:	   2  0.0000000e+00 1.40e+00 2.13e+01  -0.5 4.42e+00    -  1.88e-02 6.90e-01f  1
+      From worker 12:	This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+      From worker 12:	
+      From worker 12:	Number of nonzeros in equality constraint Jacobian...:    70448
+      From worker 12:	Number of nonzeros in inequality constraint Jacobian.:        0
+      From worker 12:	Number of nonzeros in Lagrangian Hessian.............:        0
+      From worker 12:	
+      From worker 12:	Total number of variables............................:    10144
+      From worker 12:	                     variables with only lower bounds:     2784
+      From worker 12:	                variables with lower and upper bounds:        0
+      From worker 12:	                     variables with only upper bounds:        0
+      From worker 12:	Total number of equality constraints.................:     8528
+      From worker 12:	Total number of inequality constraints...............:        0
+      From worker 12:	        inequality constraints with only lower bounds:        0
+      From worker 12:	   inequality constraints with lower and upper bounds:        0
+      From worker 12:	        inequality constraints with only upper bounds:        0
+      From worker 12:	
+      From worker 12:	iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+      From worker 12:	   0  0.0000000e+00 4.57e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+      From worker 20:	   7  0.0000000e+00 8.88e-16 2.40e-08  -7.8 2.49e-03    -  9.99e-01 1.00e+00h  1
+      From worker 28:	   2  0.0000000e+00 1.33e+00 2.17e+01  -0.5 4.42e+00    -  1.91e-02 7.03e-01f  1
+      From worker 18:	   5  0.0000000e+00 1.33e-15 2.02e-04  -3.5 7.38e-01    -  7.13e-01 1.00e+00f  1
+      From worker 26:	   2  0.0000000e+00 3.26e+00 1.73e+01  -0.4 5.51e+00    -  1.28e-02 4.17e-01f  1
+      From worker 12:	   1  0.0000000e+00 4.52e+00 2.18e+00   0.0 2.82e+00    -  5.40e-03 1.17e-02f  1
+      From worker 18:	   6  0.0000000e+00 1.33e-15 6.65e-06  -5.3 5.91e-02    -  9.67e-01 1.00e+00f  1
+      From worker 30:	   8  0.0000000e+00 8.88e-16 1.02e-09  -9.0 6.39e-02    -  9.62e-01 1.00e+00h  1
+      From worker 30:	
+      From worker 30:	Number of Iterations....: 8
+      From worker 30:	
+      From worker 30:	                                   (scaled)                 (unscaled)
+      From worker 30:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 30:	Dual infeasibility......:   1.0170548851649093e-09    1.0170548851649093e-09
+      From worker 30:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 30:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 30:	Complementarity.........:   2.9162158059004654e-09    2.9162158059004654e-09
+      From worker 30:	Overall NLP error.......:   2.9162158059004654e-09    2.9162158059004654e-09
+      From worker 30:	
+      From worker 30:	
+      From worker 30:	Number of objective function evaluations             = 9
+      From worker 30:	Number of objective gradient evaluations             = 9
+      From worker 30:	Number of equality constraint evaluations            = 9
+      From worker 30:	Number of inequality constraint evaluations          = 0
+      From worker 30:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 30:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 30:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 30:	Total seconds in IPOPT                               = 2.835
+      From worker 30:	
+      From worker 30:	EXIT: Optimal Solution Found.
+      From worker 14:	   4  0.0000000e+00 8.88e-16 7.61e-04  -7.4 8.55e-07    -  9.90e-01 1.00e+00h  1
+      From worker 10:	   3  0.0000000e+00 1.33e-15 1.01e-01  -0.7 1.51e+00    -  8.97e-01 1.00e+00f  1
+      From worker 30:	curr_mu = 1
+      From worker 12:	   2  0.0000000e+00 1.36e+00 2.27e+01  -0.5 4.41e+00    -  1.90e-02 6.99e-01f  1
+      From worker 22:	   3  0.0000000e+00 1.78e-15 1.45e-01  -0.6 1.85e+00    -  8.52e-01 1.00e+00f  1
+      From worker 32:	   3  0.0000000e+00 1.33e-15 9.55e-02  -0.8 1.37e+00    -  9.07e-01 1.00e+00f  1
+      From worker 18:	   7  0.0000000e+00 1.78e-15 6.27e-09  -8.0 1.74e-03    -  9.99e-01 1.00e+00h  1
+      From worker 28:	   3  0.0000000e+00 1.33e-15 9.00e-02  -0.8 1.31e+00    -  9.13e-01 1.00e+00f  1
+      From worker 26:	   3  0.0000000e+00 8.88e-16 1.61e+00  -0.1 3.00e+00    -  8.92e-01 1.00e+00f  1
+      From worker 24:	   8  0.0000000e+00 8.88e-16 7.37e-10  -9.0 1.04e-01    -  9.51e-01 1.00e+00h  1
+      From worker 24:	
+      From worker 24:	Number of Iterations....: 8
+      From worker 24:	
+      From worker 24:	                                   (scaled)                 (unscaled)
+      From worker 24:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 24:	Dual infeasibility......:   7.3749240910551717e-10    7.3749240910551717e-10
+      From worker 24:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 24:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 24:	Complementarity.........:   2.7225404912393973e-09    2.7225404912393973e-09
+      From worker 24:	Overall NLP error.......:   2.7225404912393973e-09    2.7225404912393973e-09
+      From worker 24:	
+      From worker 24:	
+      From worker 24:	Number of objective function evaluations             = 9
+      From worker 24:	Number of objective gradient evaluations             = 9
+      From worker 24:	Number of equality constraint evaluations            = 9
+      From worker 24:	Number of inequality constraint evaluations          = 0
+      From worker 24:	Number of equality constraint Jacobian evaluations   = 9
+ERROR: LoadError: On worker 2:
+IPOPT: Couldn't set option 'mu_target' to value '1'::Int32. Note that `Num` options need to be explictly passed as `Float64(1)` instead of their integer equivalents.
+Stacktrace:
+  [1] error
+    @ ./error.jl:33
+  [2] AddIpoptIntOption
+    @ ~/.julia/packages/Ipopt/swQHt/src/C_wrapper.jl:355
+  [3] optimize!
+    @ ~/.julia/packages/Ipopt/swQHt/src/MOI_wrapper.jl:882
+  [4] optimize!
+    @ ~/.julia/packages/MathOptInterface/864xP/src/Bridges/bridge_optimizer.jl:376 [inlined]
+  [5] optimize!
+    @ ~/.julia/packages/MathOptInterface/864xP/src/MathOptInterface.jl:85 [inlined]
+  [6] optimize!
+    @ ~/.julia/packages/MathOptInterface/864xP/src/Utilities/cachingoptimizer.jl:316
+  [7] #optimize!#117
+    @ ~/.julia/packages/JuMP/H2SWp/src/optimizer_interface.jl:436
+  [8] optimize!
+    @ ~/.julia/packages/JuMP/H2SWp/src/optimizer_interface.jl:414 [inlined]
+  [9] solve_with_custom_mu
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:432
+ [10] solve_with_custom_mu
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:405 [inlined]
+ [11] macro expansion
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:576 [inlined]
+ [12] macro expansion
+    @ ./timing.jl:321 [inlined]
+ [13] #train_forecaster_spo#24
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:575
+ [14] train_spo_new
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:233
+ [15] hp_tuning_spo_par
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/training/functions_spo.jl:88
+ [16] #110
+    @ /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/process_messages.jl:278
+ [17] run_work_thunk
+    @ /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/process_messages.jl:63
+ [18] macro expansion
+    @ /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/process_messages.jl:278 [inlined]
+ [19] #109
+    @ ./task.jl:417
+Stacktrace:
+  [1] (::Base.var"#844#846")(x::Task)
+    @ Base ./asyncmap.jl:177
+  [2] foreach(f::Base.var"#844#846", itr::Vector{Any})
+    @ Base ./abstractarray.jl:2141
+  [3] maptwice(wrapped_f::Function, chnl::Channel{Any}, worker_tasks::Vector{Any}, c::Vector{Any})
+    @ Base ./asyncmap.jl:177
+  [4] wrap_n_exec_twice
+    @ ./asyncmap.jl:153 [inlined]
+  [5] #async_usemap#829
+    @ ./asyncmap.jl:103 [inlined]
+  [6] #asyncmap#828
+    @ ./asyncmap.jl:81 [inlined]
+  [7] pmap(f::Function, p::WorkerPool, c::Vector{Any}; distributed::Bool, batch_size::Int64, on_error::Nothing, retry_delays::Vector{Any}, retry_check::Nothing)
+    @ Distributed /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/pmap.jl:126
+  [8] pmap(f::Function, p::WorkerPool, c::Vector{Any})
+    @ Distributed /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/pmap.jl:101
+  [9] pmap(f::Function, c::Vector{Any}; kwargs::Base.Iterators.Pairs{Union{}, Union{}, Tuple{}, NamedTuple{(), Tuple{}}})
+    @ Distributed /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/pmap.jl:156
+ [10] pmap(f::Function, c::Vector{Any})
+    @ Distributed /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.6/Distributed/src/pmap.jl:156
+ [11] top-level scope
+    @ /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/experiment/exec_da_training.jl:226
+in expression starting at /vsc-hard-mounts/leuven-data/342/vsc34283/Sp-R-IP/experiment/exec_da_training.jl:225
+      From worker 24:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 24:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 24:	Total seconds in IPOPT                               = 3.236
+      From worker 24:	
+      From worker 24:	EXIT: Optimal Solution Found.
+      From worker 8:	   8  0.0000000e+00 1.33e-15 7.69e-10  -9.0 3.66e-02    -  9.84e-01 1.00e+00h  1
+      From worker 8:	
+      From worker 8:	Number of Iterations....: 8
+      From worker 8:	
+      From worker 8:	                                   (scaled)                 (unscaled)
+      From worker 8:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 8:	Dual infeasibility......:   7.6936438395458868e-10    7.6936438395458868e-10
+      From worker 8:	Constraint violation....:   1.3322676295501878e-15    1.3322676295501878e-15
+      From worker 8:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 8:	Complementarity.........:   3.1646158738631847e-09    3.1646158738631847e-09
+      From worker 8:	Overall NLP error.......:   3.1646158738631847e-09    3.1646158738631847e-09
+      From worker 8:	
+      From worker 8:	
+      From worker 8:	Number of objective function evaluations             = 9
+      From worker 8:	Number of objective gradient evaluations             = 9
+      From worker 8:	Number of equality constraint evaluations            = 9
+      From worker 8:	Number of inequality constraint evaluations          = 0
+      From worker 8:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 8:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 8:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 8:	Total seconds in IPOPT                               = 3.096
+      From worker 8:	
+      From worker 8:	EXIT: Optimal Solution Found.
+      From worker 14:	   5  0.0000000e+00 1.78e-15 1.94e-03  -3.5 1.94e-03    -  1.00e+00 1.00e+00f  1
+      From worker 24:	curr_mu = 1
+      From worker 8:	curr_mu = 1
+      From worker 10:	   4  0.0000000e+00 1.33e-15 1.01e-03  -7.3 8.73e-07    -  9.90e-01 1.00e+00h  1
+      From worker 12:	   3  0.0000000e+00 1.78e-15 8.63e-02  -0.7 1.33e+00    -  9.16e-01 1.00e+00f  1
+      From worker 22:	   4  0.0000000e+00 1.33e-15 1.45e-03  -7.1 8.83e-07    -  9.90e-01 1.00e+00h  1
+      From worker 32:	   4  0.0000000e+00 8.88e-16 9.55e-04  -7.4 8.75e-07    -  9.90e-01 1.00e+00h  1
+      From worker 26:	   4  0.0000000e+00 8.88e-16 1.61e-02  -6.2 4.02e-07    -  9.90e-01 1.00e+00h  1
+      From worker 28:	   4  0.0000000e+00 1.33e-15 9.00e-04  -7.4 8.50e-07    -  9.90e-01 1.00e+00h  1
+      From worker 12:	   4  0.0000000e+00 1.78e-15 8.63e-04  -7.3 1.02e-06    -  9.90e-01 1.00e+00h  1
+      From worker 10:	   5  0.0000000e+00 1.33e-15 2.04e-03  -3.4 2.04e-03    -  1.00e+00 1.00e+00f  1
+      From worker 22:	   5  0.0000000e+00 1.33e-15 4.81e-04  -3.2 7.06e-01    -  6.68e-01 1.00e+00f  1
+      From worker 26:	   5  0.0000000e+00 8.88e-16 3.78e-03  -2.3 1.94e+00    -  7.66e-01 1.00e+00f  1
+      From worker 32:	   5  0.0000000e+00 8.88e-16 2.91e-04  -3.5 7.00e-01    -  6.96e-01 1.00e+00f  1
+      From worker 20:	   8  0.0000000e+00 1.33e-15 2.24e-09  -9.0 1.40e-01    -  8.72e-01 1.00e+00h  1
+      From worker 20:	
+      From worker 20:	Number of Iterations....: 8
+      From worker 20:	
+      From worker 20:	                                   (scaled)                 (unscaled)
+      From worker 20:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 20:	Dual infeasibility......:   2.2444747429944234e-09    2.2444747429944234e-09
+      From worker 20:	Constraint violation....:   1.3322676295501878e-15    1.3322676295501878e-15
+      From worker 20:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 20:	Complementarity.........:   3.1691940655444818e-09    3.1691940655444818e-09
+      From worker 20:	Overall NLP error.......:   3.1691940655444818e-09    3.1691940655444818e-09
+      From worker 20:	
+      From worker 20:	
+      From worker 20:	Number of objective function evaluations             = 9
+      From worker 20:	Number of objective gradient evaluations             = 9
+      From worker 20:	Number of equality constraint evaluations            = 9
+      From worker 20:	Number of inequality constraint evaluations          = 0
+      From worker 20:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 20:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 20:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 20:	Total seconds in IPOPT                               = 3.685
+      From worker 20:	
+      From worker 20:	EXIT: Optimal Solution Found.
+      From worker 14:	   6  0.0000000e+00 1.78e-15 9.46e-06  -5.3 1.80e-02    -  9.95e-01 1.00e+00f  1
+      From worker 12:	   5  0.0000000e+00 1.78e-15 2.66e-04  -3.4 8.12e-01    -  6.92e-01 1.00e+00f  1
+      From worker 20:	curr_mu = 1
+      From worker 28:	   5  0.0000000e+00 1.33e-15 2.85e-04  -3.5 6.80e-01    -  6.83e-01 1.00e+00f  1
+      From worker 10:	   6  0.0000000e+00 1.33e-15 1.26e-05  -5.1 1.71e-02    -  9.94e-01 1.00e+00f  1
+      From worker 22:	   6  0.0000000e+00 1.33e-15 8.63e-06  -4.9 3.59e-02    -  9.82e-01 1.00e+00f  1
+      From worker 26:	   6  0.0000000e+00 1.78e-15 3.03e-04  -3.5 3.00e-01    -  9.20e-01 1.00e+00f  1
+      From worker 32:	   6  0.0000000e+00 8.88e-16 5.84e-06  -5.2 3.65e-02    -  9.80e-01 1.00e+00f  1
+      From worker 12:	   6  0.0000000e+00 8.88e-16 1.11e-05  -5.2 1.11e-05    -  1.00e+00 1.00e+00h  1
+      From worker 14:	   7  0.0000000e+00 1.78e-15 4.13e-08  -7.9 5.48e-03    -  9.96e-01 1.00e+00h  1
+      From worker 28:	   6  0.0000000e+00 8.88e-16 4.29e-06  -5.2 2.93e-02    -  9.85e-01 1.00e+00f  1
+      From worker 32:	   7  0.0000000e+00 8.88e-16 2.71e-08  -7.8 2.71e-08    -  1.00e+00 1.00e+00h  1
+      From worker 18:	   8  0.0000000e+00 1.33e-15 1.03e-09  -9.0 1.64e-01    -  9.10e-01 1.00e+00h  1
+      From worker 18:	
+      From worker 18:	Number of Iterations....: 8
+      From worker 18:	
+      From worker 18:	                                   (scaled)                 (unscaled)
+      From worker 18:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 18:	Dual infeasibility......:   1.0255008571791122e-09    1.0255008571791122e-09
+      From worker 18:	Constraint violation....:   1.3322676295501878e-15    1.3322676295501878e-15
+      From worker 18:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 18:	Complementarity.........:   2.4672028054193767e-09    2.4672028054193767e-09
+      From worker 18:	Overall NLP error.......:   2.4672028054193767e-09    2.4672028054193767e-09
+      From worker 18:	
+      From worker 18:	
+      From worker 18:	Number of objective function evaluations             = 9
+      From worker 18:	Number of objective gradient evaluations             = 9
+      From worker 18:	Number of equality constraint evaluations            = 9
+      From worker 18:	Number of inequality constraint evaluations          = 0
+      From worker 18:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 18:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 18:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 18:	Total seconds in IPOPT                               = 3.689
+      From worker 18:	
+      From worker 18:	EXIT: Optimal Solution Found.
+      From worker 12:	   7  0.0000000e+00 8.88e-16 2.94e-08  -7.7 2.94e-08    -  1.00e+00 1.00e+00h  1
+      From worker 10:	   7  0.0000000e+00 1.33e-15 8.46e-08  -7.6 6.95e-03    -  9.93e-01 1.00e+00h  1
+      From worker 26:	   7  0.0000000e+00 1.78e-15 3.80e-06  -5.2 4.85e-02    -  9.87e-01 1.00e+00f  1
+      From worker 22:	   7  0.0000000e+00 8.88e-16 2.94e-08  -7.3 6.57e-03    -  9.97e-01 1.00e+00f  1
+      From worker 18:	curr_mu = 1
+      From worker 32:	   8  0.0000000e+00 8.88e-16 1.43e-09  -9.0 1.43e-09    -  1.00e+00 1.00e+00h  1
+      From worker 32:	
+      From worker 32:	Number of Iterations....: 8
+      From worker 32:	
+      From worker 32:	                                   (scaled)                 (unscaled)
+      From worker 32:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 32:	Dual infeasibility......:   1.4273862537979696e-09    1.4273862537979696e-09
+      From worker 32:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 32:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 32:	Complementarity.........:   9.0909090487896446e-10    9.0909090487896446e-10
+      From worker 32:	Overall NLP error.......:   1.4273862537979696e-09    1.4273862537979696e-09
+      From worker 32:	
+      From worker 32:	
+      From worker 32:	Number of objective function evaluations             = 9
+      From worker 32:	Number of objective gradient evaluations             = 9
+      From worker 32:	Number of equality constraint evaluations            = 9
+      From worker 32:	Number of inequality constraint evaluations          = 0
+      From worker 32:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 32:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 32:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 32:	Total seconds in IPOPT                               = 3.312
+      From worker 32:	
+      From worker 32:	EXIT: Optimal Solution Found.
+      From worker 12:	   8  0.0000000e+00 8.88e-16 1.44e-09  -9.0 1.44e-09    -  1.00e+00 1.00e+00h  1
+      From worker 12:	
+      From worker 12:	Number of Iterations....: 8
+      From worker 12:	
+      From worker 12:	                                   (scaled)                 (unscaled)
+      From worker 12:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 12:	Dual infeasibility......:   1.4435805772676423e-09    1.4435805772676423e-09
+      From worker 12:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 12:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 12:	Complementarity.........:   9.0909090479450033e-10    9.0909090479450033e-10
+      From worker 12:	Overall NLP error.......:   1.4435805772676423e-09    1.4435805772676423e-09
+      From worker 12:	
+      From worker 12:	
+      From worker 12:	Number of objective function evaluations             = 9
+      From worker 12:	Number of objective gradient evaluations             = 9
+      From worker 12:	Number of equality constraint evaluations            = 9
+      From worker 12:	Number of inequality constraint evaluations          = 0
+      From worker 12:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 12:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 12:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 12:	Total seconds in IPOPT                               = 3.763
+      From worker 12:	
+      From worker 12:	EXIT: Optimal Solution Found.
+      From worker 28:	   7  0.0000000e+00 8.88e-16 9.35e-09  -7.8 3.91e-03    -  9.98e-01 1.00e+00h  1
+      From worker 32:	curr_mu = 1
+      From worker 12:	curr_mu = 1
+      From worker 26:	   8  0.0000000e+00 8.88e-16 1.06e-08  -7.9 9.87e-03    -  9.97e-01 1.00e+00h  1
+      From worker 14:	   8  0.0000000e+00 1.33e-15 2.60e-09  -9.0 6.95e-02    -  9.33e-01 1.00e+00h  1
+      From worker 14:	
+      From worker 14:	Number of Iterations....: 8
+      From worker 14:	
+      From worker 14:	                                   (scaled)                 (unscaled)
+      From worker 14:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 14:	Dual infeasibility......:   2.6030658921875559e-09    2.6030658921875559e-09
+      From worker 14:	Constraint violation....:   1.3322676295501878e-15    1.3322676295501878e-15
+      From worker 14:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 14:	Complementarity.........:   3.4379469557440282e-09    3.4379469557440282e-09
+      From worker 14:	Overall NLP error.......:   3.4379469557440282e-09    3.4379469557440282e-09
+      From worker 14:	
+      From worker 14:	
+      From worker 14:	Number of objective function evaluations             = 9
+      From worker 14:	Number of objective gradient evaluations             = 9
+      From worker 14:	Number of equality constraint evaluations            = 9
+      From worker 14:	Number of inequality constraint evaluations          = 0
+      From worker 14:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 14:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 14:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 14:	Total seconds in IPOPT                               = 4.030
+      From worker 14:	
+      From worker 14:	EXIT: Optimal Solution Found.
+      From worker 14:	curr_mu = 1
+      From worker 10:	   8  0.0000000e+00 8.88e-16 1.43e-09  -9.0 2.84e-02    -  9.82e-01 1.00e+00h  1
+      From worker 10:	
+      From worker 10:	Number of Iterations....: 8
+      From worker 10:	
+      From worker 10:	                                   (scaled)                 (unscaled)
+      From worker 10:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 10:	Dual infeasibility......:   1.4309247570866258e-09    1.4309247570866258e-09
+      From worker 10:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 10:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 10:	Complementarity.........:   2.4208929740985510e-09    2.4208929740985510e-09
+      From worker 10:	Overall NLP error.......:   2.4208929740985510e-09    2.4208929740985510e-09
+      From worker 10:	
+      From worker 10:	
+      From worker 10:	Number of objective function evaluations             = 9
+      From worker 10:	Number of objective gradient evaluations             = 9
+      From worker 10:	Number of equality constraint evaluations            = 9
+      From worker 10:	Number of inequality constraint evaluations          = 0
+      From worker 10:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 10:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 10:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 10:	Total seconds in IPOPT                               = 3.787
+      From worker 10:	
+      From worker 10:	EXIT: Optimal Solution Found.
+      From worker 22:	   8  0.0000000e+00 8.88e-16 8.73e-10  -9.0 5.05e-02    -  9.73e-01 1.00e+00h  1
+      From worker 22:	
+      From worker 22:	Number of Iterations....: 8
+      From worker 22:	
+      From worker 22:	                                   (scaled)                 (unscaled)
+      From worker 22:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 22:	Dual infeasibility......:   8.7320604472196266e-10    8.7320604472196266e-10
+      From worker 22:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 22:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 22:	Complementarity.........:   3.2441592641586676e-09    3.2441592641586676e-09
+      From worker 22:	Overall NLP error.......:   3.2441592641586676e-09    3.2441592641586676e-09
+      From worker 22:	
+      From worker 22:	
+      From worker 22:	Number of objective function evaluations             = 9
+      From worker 22:	Number of objective gradient evaluations             = 9
+      From worker 22:	Number of equality constraint evaluations            = 9
+      From worker 22:	Number of inequality constraint evaluations          = 0
+      From worker 22:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 22:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 22:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 22:	Total seconds in IPOPT                               = 3.908
+      From worker 22:	
+      From worker 22:	EXIT: Optimal Solution Found.
+      From worker 10:	curr_mu = 1
+      From worker 28:	   8  0.0000000e+00 8.88e-16 1.08e-09  -9.0 1.28e-01    -  9.28e-01 1.00e+00h  1
+      From worker 28:	
+      From worker 28:	Number of Iterations....: 8
+      From worker 28:	
+      From worker 28:	                                   (scaled)                 (unscaled)
+      From worker 28:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 28:	Dual infeasibility......:   1.0823807344425711e-09    1.0823807344425711e-09
+      From worker 28:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 28:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 28:	Complementarity.........:   2.8101021587518392e-09    2.8101021587518392e-09
+      From worker 28:	Overall NLP error.......:   2.8101021587518392e-09    2.8101021587518392e-09
+      From worker 28:	
+      From worker 28:	
+      From worker 28:	Number of objective function evaluations             = 9
+      From worker 28:	Number of objective gradient evaluations             = 9
+      From worker 28:	Number of equality constraint evaluations            = 9
+      From worker 28:	Number of inequality constraint evaluations          = 0
+      From worker 28:	Number of equality constraint Jacobian evaluations   = 9
+      From worker 28:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 28:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 28:	Total seconds in IPOPT                               = 3.828
+      From worker 28:	
+      From worker 28:	EXIT: Optimal Solution Found.
+      From worker 22:	curr_mu = 1
+      From worker 28:	curr_mu = 1
+      From worker 26:	   9  0.0000000e+00 8.88e-16 5.72e-10  -9.0 2.21e-01    -  9.48e-01 1.00e+00h  1
+      From worker 26:	
+      From worker 26:	Number of Iterations....: 9
+      From worker 26:	
+      From worker 26:	                                   (scaled)                 (unscaled)
+      From worker 26:	Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 26:	Dual infeasibility......:   5.7233529171041576e-10    5.7233529171041576e-10
+      From worker 26:	Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
+      From worker 26:	Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+      From worker 26:	Complementarity.........:   2.8201137919459803e-09    2.8201137919459803e-09
+      From worker 26:	Overall NLP error.......:   2.8201137919459803e-09    2.8201137919459803e-09
+      From worker 26:	
+      From worker 26:	
+      From worker 26:	Number of objective function evaluations             = 10
+      From worker 26:	Number of objective gradient evaluations             = 10
+      From worker 26:	Number of equality constraint evaluations            = 10
+      From worker 26:	Number of inequality constraint evaluations          = 0
+      From worker 26:	Number of equality constraint Jacobian evaluations   = 10
+      From worker 26:	Number of inequality constraint Jacobian evaluations = 0
+      From worker 26:	Number of Lagrangian Hessian evaluations             = 0
+      From worker 26:	Total seconds in IPOPT                               = 4.146
+      From worker 26:	
+      From worker 26:	EXIT: Optimal Solution Found.
+      From worker 26:	curr_mu = 1
+      From worker 10:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 10:	
+      From worker 10:	### mu_target (Real Number)  ###
+      From worker 10:	Category: Termination
+      From worker 10:	Description: Desired value of complementarity.
+      From worker 10:	0 <= (0) <= +inf
+      From worker 3:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 3:	
+      From worker 3:	### mu_target (Real Number)  ###
+      From worker 3:	Category: Termination
+      From worker 3:	Description: Desired value of complementarity.
+      From worker 3:	0 <= (0) <= +inf
+      From worker 15:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 15:	
+      From worker 15:	### mu_target (Real Number)  ###
+      From worker 15:	Category: Termination
+      From worker 15:	Description: Desired value of complementarity.
+      From worker 15:	0 <= (0) <= +inf
+      From worker 31:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 31:	
+      From worker 31:	### mu_target (Real Number)  ###
+      From worker 31:	Category: Termination
+      From worker 31:	Description: Desired value of complementarity.
+      From worker 31:	0 <= (0) <= +inf
+      From worker 25:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 25:	
+      From worker 25:	### mu_target (Real Number)  ###
+      From worker 25:	Category: Termination
+      From worker 25:	Description: Desired value of complementarity.
+      From worker 25:	0 <= (0) <= +inf
+      From worker 33:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 33:	
+      From worker 33:	### mu_target (Real Number)  ###
+      From worker 33:	Category: Termination
+      From worker 33:	Description: Desired value of complementarity.
+      From worker 33:	0 <= (0) <= +inf
+      From worker 6:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 6:	
+      From worker 6:	### mu_target (Real Number)  ###
+      From worker 6:	Category: Termination
+      From worker 6:	Description: Desired value of complementarity.
+      From worker 6:	0 <= (0) <= +inf
+      From worker 7:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 7:	
+      From worker 7:	### mu_target (Real Number)  ###
+      From worker 7:	Category: Termination
+      From worker 7:	Description: Desired value of complementarity.
+      From worker 7:	0 <= (0) <= +inf
+      From worker 13:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 13:	
+      From worker 13:	### mu_target (Real Number)  ###
+      From worker 13:	Category: Termination
+      From worker 13:	Description: Desired value of complementarity.
+      From worker 13:	0 <= (0) <= +inf
+      From worker 19:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 19:	
+      From worker 19:	### mu_target (Real Number)  ###
+      From worker 19:	Category: Termination
+      From worker 19:	Description: Desired value of complementarity.
+      From worker 19:	0 <= (0) <= +inf
+      From worker 8:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 8:	
+      From worker 8:	### mu_target (Real Number)  ###
+      From worker 8:	Category: Termination
+      From worker 8:	Description: Desired value of complementarity.
+      From worker 8:	0 <= (0) <= +inf
+      From worker 24:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 24:	
+      From worker 24:	### mu_target (Real Number)  ###
+      From worker 24:	Category: Termination
+      From worker 24:	Description: Desired value of complementarity.
+      From worker 24:	0 <= (0) <= +inf
+      From worker 11:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 11:	
+      From worker 11:	### mu_target (Real Number)  ###
+      From worker 11:	Category: Termination
+      From worker 11:	Description: Desired value of complementarity.
+      From worker 11:	0 <= (0) <= +inf
+      From worker 32:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 32:	
+      From worker 32:	### mu_target (Real Number)  ###
+      From worker 32:	Category: Termination
+      From worker 32:	Description: Desired value of complementarity.
+      From worker 32:	0 <= (0) <= +inf
+      From worker 17:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 17:	
+      From worker 17:	### mu_target (Real Number)  ###
+      From worker 17:	Category: Termination
+      From worker 17:	Description: Desired value of complementarity.
+      From worker 17:	0 <= (0) <= +inf
+      From worker 27:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 27:	
+      From worker 27:	### mu_target (Real Number)  ###
+      From worker 27:	Category: Termination
+      From worker 27:	Description: Desired value of complementarity.
+      From worker 27:	0 <= (0) <= +inf
+      From worker 5:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 5:	
+      From worker 5:	### mu_target (Real Number)  ###
+      From worker 5:	Category: Termination
+      From worker 5:	Description: Desired value of complementarity.
+      From worker 5:	0 <= (0) <= +inf
+      From worker 21:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 21:	
+      From worker 21:	### mu_target (Real Number)  ###
+      From worker 21:	Category: Termination
+      From worker 21:	Description: Desired value of complementarity.
+      From worker 21:	0 <= (0) <= +inf
+      From worker 12:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 12:	
+      From worker 12:	### mu_target (Real Number)  ###
+      From worker 12:	Category: Termination
+      From worker 12:	Description: Desired value of complementarity.
+      From worker 12:	0 <= (0) <= +inf
+      From worker 23:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 23:	
+      From worker 23:	### mu_target (Real Number)  ###
+      From worker 23:	Category: Termination
+      From worker 23:	Description: Desired value of complementarity.
+      From worker 23:	0 <= (0) <= +inf
+      From worker 9:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 9:	
+      From worker 9:	### mu_target (Real Number)  ###
+      From worker 9:	Category: Termination
+      From worker 9:	Description: Desired value of complementarity.
+      From worker 9:	0 <= (0) <= +inf
+      From worker 30:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 30:	
+      From worker 30:	### mu_target (Real Number)  ###
+      From worker 30:	Category: Termination
+      From worker 30:	Description: Desired value of complementarity.
+      From worker 30:	0 <= (0) <= +inf
+      From worker 20:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 20:	
+      From worker 20:	### mu_target (Real Number)  ###
+      From worker 20:	Category: Termination
+      From worker 20:	Description: Desired value of complementarity.
+      From worker 20:	0 <= (0) <= +inf
+      From worker 29:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 29:	
+      From worker 29:	### mu_target (Real Number)  ###
+      From worker 29:	Category: Termination
+      From worker 29:	Description: Desired value of complementarity.
+      From worker 29:	0 <= (0) <= +inf
+      From worker 2:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 2:	
+      From worker 2:	### mu_target (Real Number)  ###
+      From worker 2:	Category: Termination
+      From worker 2:	Description: Desired value of complementarity.
+      From worker 2:	0 <= (0) <= +inf
+      From worker 16:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 16:	
+      From worker 16:	### mu_target (Real Number)  ###
+      From worker 16:	Category: Termination
+      From worker 16:	Description: Desired value of complementarity.
+      From worker 16:	0 <= (0) <= +inf
+      From worker 4:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 4:	
+      From worker 4:	### mu_target (Real Number)  ###
+      From worker 4:	Category: Termination
+      From worker 4:	Description: Desired value of complementarity.
+      From worker 4:	0 <= (0) <= +inf
+      From worker 18:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 18:	
+      From worker 18:	### mu_target (Real Number)  ###
+      From worker 18:	Category: Termination
+      From worker 18:	Description: Desired value of complementarity.
+      From worker 18:	0 <= (0) <= +inf
+      From worker 28:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 28:	
+      From worker 28:	### mu_target (Real Number)  ###
+      From worker 28:	Category: Termination
+      From worker 28:	Description: Desired value of complementarity.
+      From worker 28:	0 <= (0) <= +inf
+      From worker 14:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 14:	
+      From worker 14:	### mu_target (Real Number)  ###
+      From worker 14:	Category: Termination
+      From worker 14:	Description: Desired value of complementarity.
+      From worker 14:	0 <= (0) <= +inf
+      From worker 22:	Tried to set Option: mu_target. It is a valid option, but it is of type  Number, not of type Integer. Please check the documentation for options.
+      From worker 22:	
+      From worker 22:	### mu_target (Real Number)  ###
+      From worker 22:	Category: Termination
+      From worker 22:	Description: Desired value of complementarity.
+      From worker 22:	0 <= (0) <= +inf

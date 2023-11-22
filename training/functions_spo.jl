@@ -221,25 +221,23 @@ function train_spo_new(dict)
         all_lists_mu = Dict()
 
         for (i, data) in enumerate(training_loader)
-            if i == 1
-                features, labels_price, labels_schedule = data
-                features, labels_price, labels_schedule = transpose(features), transpose(labels_price),transpose(labels_schedule)
+            features, labels_price, labels_schedule = data
+            features, labels_price, labels_schedule = transpose(features), transpose(labels_price),transpose(labels_schedule)
 
 
-                labels_price_ext = zeros(Float64, size(labels_price, 1), size(labels_price, 2) * 3 + 1)
-                for i in 1:size(labels_price, 1)
-                    labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
-                end
-
-                list_fc_lists, obj_values, list_mu, time_WS_batch, time_opti_batch, memory = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
-                if memory > max_memory
-                    max_memory = memory
-                end
-                time_opti += time_opti_batch
-                train_time_WS += time_WS_batch
-                all_list_fc_lists[i] = list_fc_lists
-                all_lists_mu[i] = list_mu
+            labels_price_ext = zeros(Float64, size(labels_price, 1), size(labels_price, 2) * 3 + 1)
+            for i in 1:size(labels_price, 1)
+                labels_price_ext[i, :] = extend_price(labels_price[i, :],params_dict)
             end
+
+            list_fc_lists, obj_values, list_mu, time_WS_batch, time_opti_batch, memory = train_forecaster_spo(params_dict, training_dict, features, labels_price_ext, labels_schedule, dict,train_type, warm_start=training_dict["warm_start"])
+            if memory > max_memory
+                max_memory = memory
+            end
+            time_opti += time_opti_batch
+            train_time_WS += time_WS_batch
+            all_list_fc_lists[i] = list_fc_lists
+            all_lists_mu[i] = list_mu
         end
 
         aggregator = Batch_aggregator(all_list_fc_lists,dict["val_feat"],dict["val_lab"],params_dict,"high","full_set","mu",all_lists_mu)
@@ -381,6 +379,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
             end
 
             println("optimizing feasibility problem")
+            set_optimizer_attribute(prob_feas, "hessian_approximation", "limited-memory")
             optimize!(prob_feas)
 
             for (var,var_feas) in zip(list_variables, list_variables_feas)
@@ -400,7 +399,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
 
     end
 
-    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=30,patience=5,max_iters_single_opti=25, lim_mu = -8)
+    function solve_with_custom_mu(model::Model, initial_mu, update_mu_func, dict_all, tol=1e-3, max_iters=50,patience=5,max_iters_single_opti=100, lim_mu = -8)
         
         #Retrieve values from overall dict
         params_dict = dict_all["params_dict"]
@@ -547,7 +546,7 @@ function train_forecaster_spo(params_dict, training_dict, features, prices, opti
 
     elseif training_dict["mu_update"][1:6] == "manual"
 
-        mu_init = 0.1
+        mu_init = 1
         update_mu_func(curr_mu) = curr_mu / 2
         function update_mu_func_dyn(mu,list_val_profit)
             divisor = 1.5
